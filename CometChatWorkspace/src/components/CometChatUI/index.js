@@ -25,7 +25,7 @@ class CometChatUI extends React.Component {
 	loggedInUser = null;
 
 	constructor(props) {
-		
+
 		super(props);
 		this.state = {
 			sidebarview: false,
@@ -34,7 +34,7 @@ class CometChatUI extends React.Component {
 		this.navBarRef = React.createRef();
 		this.contextProviderRef = React.createRef();
 	}
-	
+
 	componentDidMount() {
 
 		if (this.props.chatWithUser.length === 0 && this.props.chatWithGroup.length === 0) {
@@ -43,7 +43,7 @@ class CometChatUI extends React.Component {
 	}
 
 	navBarAction = (action, type, item) => {
-		
+
 		switch(action) {
 			case enums.ACTIONS["ITEM_CLICKED"]:
 				this.itemClicked(item, type);
@@ -55,15 +55,15 @@ class CometChatUI extends React.Component {
 			break;
 		}
 	}
-	
+
 	itemClicked = (item, type) => {
-		
-		this.contextProviderRef.setTypeAndItem(type, item);    
+
+		this.contextProviderRef.setTypeAndItem(type, item);
 		this.toggleSideBar()
 	}
 
 	actionHandler = (action, item, count, ...otherProps) => {
-		
+
 		switch(action) {
 			case enums.ACTIONS["TOGGLE_SIDEBAR"]:
 				this.toggleSideBar();
@@ -88,12 +88,12 @@ class CometChatUI extends React.Component {
 	 If the logged in user is banned, kicked or scope changed, update the chat window accordingly
 	 */
 	groupUpdated = (key, message, group, options) => {
-		
+
 		switch(key) {
 			case enums.GROUP_MEMBER_BANNED:
 			case enums.GROUP_MEMBER_KICKED: {
-				
-				if (this.contextProviderRef.state.type === CometChat.ACTION_TYPE.TYPE_GROUP 
+
+				if (this.contextProviderRef.state.type === CometChat.ACTION_TYPE.TYPE_GROUP
 				&& this.contextProviderRef.state.item.guid === group.guid
 				&& options.user.uid === this.loggedInUser.uid) {
 
@@ -103,7 +103,7 @@ class CometChatUI extends React.Component {
 				break;
 			}
 			case enums.GROUP_MEMBER_SCOPE_CHANGED: {
-				
+
 				if (this.contextProviderRef.state.type === CometChat.ACTION_TYPE.TYPE_GROUP
 				&& this.contextProviderRef.state.item.guid === group.guid
 				&& options.user.uid === this.loggedInUser.uid) {
@@ -120,21 +120,20 @@ class CometChatUI extends React.Component {
 	}
 
 	render() {
-		
+
 		let messageScreen = (
-				<CometChatMessages 
+				<CometChatMessages
 				theme={this.props.theme}
 				lang={this.props.lang}
 				_parent="unified"
 				actionGenerated={this.actionHandler} />
 			);
-
+    const Navigation = this.props.navigation || CometChatNavBar
 		return (
 			<CometChatContextProvider ref={el => this.contextProviderRef = el} user={this.props.chatWithUser} group={this.props.chatWithGroup} language={this.props.lang}>
 				<div css={unifiedStyle(this.props)} className="cometchat cometchat--unified" dir={Translator.getDirection(this.props.lang)}>
 					<div css={unifiedSidebarStyle(this.state, this.props)} className="unified__sidebar">
-						<CometChatNavBar
-							ref={el => this.navBarRef = el}
+						<Navigation
 							theme={this.props.theme}
 							actionGenerated={this.navBarAction} />
 					</div>
