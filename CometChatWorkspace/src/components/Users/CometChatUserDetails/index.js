@@ -39,6 +39,8 @@ import {
 } from "./style";
 
 import navigateIcon from "./resources/back.svg";
+import BlockUserButton from '~/views/RadarView/components/BlockUserButton';
+import ShowUserButton from '~/views/RadarView/components/ShowUserButton';
 
 class CometChatUserDetails extends React.Component {
 	static contextType = CometChatContext;
@@ -224,11 +226,11 @@ class CometChatUserDetails extends React.Component {
 		CometChat.unblockUsers(usersList)
 			.then(response => {
 				if (response && response.hasOwnProperty(uid) && response[uid].hasOwnProperty("success") && response[uid]["success"] === true) {
-					
+
 					const newType = CometChat.ACTION_TYPE.TYPE_USER;
 					const newItem = Object.assign({}, this.context.item, { blockedByMe: false });
 					this.context.setTypeAndItem(newType, newItem);
-					
+
 				} else {
 					this.toastRef.setError("SOMETHING_WRONG");
 				}
@@ -250,60 +252,36 @@ class CometChatUserDetails extends React.Component {
 			return null;
 		}
 
-		let viewProfile = null;
-		if (this.state.enableViewProfile === true && this.context.item.hasOwnProperty("link") && this.context.item.link && this.context.item.link.trim().length) {
-			viewProfile = (
-				<div css={sectionStyle()} className="detailpane__section">
-					<div css={actionSectionStyle(this.context)} className="section section__viewprofile">
-						<h6 css={sectionHeaderStyle(this.props)} className="section__header">
-							{Translator.translate("ACTIONS", this.context.language)}
-						</h6>
-						<div css={sectionContentStyle()} className="section__content">
-							<div css={contentItemStyle()} className="content__item">
-								<div css={itemLinkStyle(this.context)} className="item__link" onClick={this.viewProfile}>
-									{Translator.translate("VIEW_PROFILE", this.context.language)}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			);
-		}
+		const viewProfile = <div css={contentItemStyle()} className="content__item">
+      <ShowUserButton
+        item={this.context.item}
+        className="item__link"
+      />
+    </div>;
 
-		let blockUserText;
-		if (this.context.item.blockedByMe) {
-			blockUserText = (
-				<div css={itemLinkStyle(this.context)} className="item__link" onClick={this.unblockUser}>
-					{Translator.translate("UNBLOCK_USER", this.context.language)}
-				</div>
-			);
-		} else {
-			blockUserText = (
-				<div css={itemLinkStyle(this.context)} className="item__link" onClick={this.blockUser}>
-					{Translator.translate("BLOCK_USER", this.context.language)}
-				</div>
-			);
-		}
+    const isBlockedByMe = this.context.item.blockedByMe;
+		const blockUserText = <BlockUserButton
+      onClick={isBlockedByMe ? this.unblockUser : this.blockUser}
+      className="item__link"
+      blocked={isBlockedByMe}
+      item={this.context.item}
+    />;
 
-		let blockUserView = (
+    const blockUserView = <div css={contentItemStyle()} className="content__item">
+      {blockUserText}
+    </div>
+
+		const optionsView = !!(this.state.enableBlockUser || this.state.enableViewProfile) && (
 			<div css={sectionStyle()} className="detailpane__section">
 				<div css={privacySectionStyle(this.context)} className="section section__privacy">
 					<h6 css={sectionHeaderStyle(this.context)} className="section__header">
 						{Translator.translate("OPTIONS", this.context.language)}
 					</h6>
-					<div css={sectionContentStyle()} className="section__content">
-						<div css={contentItemStyle()} className="content__item">
-							{blockUserText}
-						</div>
-					</div>
+          { this.state.enableBlockUser && blockUserView }
+          { this.state.enableViewProfile && viewProfile }
 				</div>
 			</div>
 		);
-
-		//if block/unblock user feature is disabled
-		if (this.state.enableBlockUser === false) {
-			blockUserView = null;
-		}
 
 		let sharedmediaView = (
 			<div css={mediaSectionStyle()} className="detailpane__section">
@@ -336,8 +314,7 @@ class CometChatUserDetails extends React.Component {
 					</div>
 				</div>
 				<CometChatToastNotification ref={el => (this.toastRef = el)} lang={this.props.lang} />
-				{viewProfile}
-				{blockUserView}
+				{optionsView}
 				{sharedmediaView}
 			</div>
 		);

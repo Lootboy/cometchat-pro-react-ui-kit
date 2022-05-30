@@ -11,16 +11,16 @@ import * as enums from "../../../util/enums.js";
 
 import Translator from "../../../resources/localization/translator";
 
-import { 
-    blockedMessageWrapperStyle, 
+import {
+    blockedMessageWrapperStyle,
     blockedMessageContainerStyle,
     unblockButtonStyle,
     blockedTitleStyle,
     bockedSubTitleStyle
 } from "./style";
+import useUnblockUserAction from '~/views/RadarView/hooks/useUnblockUserAction';
 
 const CometChatBlockedUser = props => {
-    
 	const context = React.useContext(CometChatContext);
 	const chatWith = { ...context.item };
 
@@ -41,13 +41,15 @@ const CometChatBlockedUser = props => {
 			.catch(error => CometChatEvent.triggerHandler(enums.ACTIONS["ERROR"], "SOMETHING_WRONG"));
 	}
 
-	return (
+  const handleAction = useUnblockUserAction(chatWith, unblockUser);
+
+  return (
 		<div css={blockedMessageWrapperStyle()} className="">
 			<div css={blockedMessageContainerStyle()}>
 				<div css={blockedTitleStyle()}>{Translator.translate("YOU_HAVE_BLOCKED", props.lang) + " " + chatWith.name}</div>
 				<div css={bockedSubTitleStyle(context)}>{Translator.translate("NOT_POSSIBLE_TO_SEND_MESSAGES", props.lang)}</div>
 			</div>
-			<button type="button" css={unblockButtonStyle(context)} onClick={unblockUser}>
+			<button type="button" css={unblockButtonStyle(context)} onClick={handleAction}>
 				{Translator.translate("UNBLOCK", props.lang)}
 			</button>
 		</div>
