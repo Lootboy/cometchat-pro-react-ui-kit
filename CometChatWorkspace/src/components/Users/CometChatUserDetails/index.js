@@ -1,5 +1,4 @@
 import React from "react";
-import dateFormat from "dateformat";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
@@ -41,6 +40,7 @@ import {
 import navigateIcon from "./resources/back.svg";
 import BlockUserButton from '~/views/RadarView/components/BlockUserButton';
 import ShowUserButton from '~/views/RadarView/components/ShowUserButton';
+import { FormattedPastDate } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
 
 class CometChatUserDetails extends React.Component {
 	static contextType = CometChatContext;
@@ -141,10 +141,9 @@ class CometChatUserDetails extends React.Component {
 	setStatusForUser = () => {
 		let status = null;
 		if (this.context.item.status === CometChat.USER_STATUS.OFFLINE && this.context.item.lastActiveAt) {
-			const lastActive = this.context.item.lastActiveAt * 1000;
-			const messageDate = dateFormat(lastActive, "dS mmm yyyy, h:MM TT");
 
-			status = `${Translator.translate("LAST_ACTIVE_AT", this.props.lang)}: ${messageDate}`;
+      // status is set here as number to be later converted to correct date format with FormattedPastDate
+			status = this.context.item.lastActiveAt;
 		} else if (this.context.item.status === CometChat.USER_STATUS.OFFLINE) {
 			status = Translator.translate("OFFLINE", this.props.lang);
 		} else if (this.context.item.status === CometChat.USER_STATUS.ONLINE) {
@@ -309,7 +308,11 @@ class CometChatUserDetails extends React.Component {
 						</div>
 						<div css={userStatusStyle()} className="user__status">
 							<h6 css={userNameStyle()}>{this.context.item.name}</h6>
-							<span css={userPresenceStyle(this.context, this.state)}>{this.state.status}</span>
+							<span css={userPresenceStyle(this.context, this.state)}>
+                { typeof this.state.status === 'number'
+                  ? <FormattedPastDate timestamp={this.state.status} />
+                  : this.state.status}
+							</span>
 						</div>
 					</div>
 				</div>

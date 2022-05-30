@@ -1,7 +1,9 @@
 /* eslint-disable no-useless-concat */
 /* eslint-disable no-extend-native */
-import dateFormat from "dateformat";
-import Translator from "../resources/localization/translator";
+import I18n from 'i18n-js';
+import moment from 'moment';
+import { getDateFormat, getTimeFormat } from '@lootboy/lib/utils/dateAndTime'
+
 const milliseconds = 1000;
 const seconds = 1 * milliseconds;
 const minute = 60 * seconds;
@@ -18,7 +20,7 @@ const emailPattern = new RegExp(
     `[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}` +
     wordBoundary.end,
     'gi'
-); 
+);
 const urlPattern = new RegExp(
     wordBoundary.start +
     `((https?://|www\\.|pic\\.)[-\\w;/?:@&=+$\\|\\_.!~*\\|'()\\[\\]%#,☺]+[\\w/#](\\(\\))?)` +
@@ -59,7 +61,7 @@ export const linkify = (message) => {
 export const checkMessageForExtensionsData = (message, extensionKey) => {
 
     let output = null;
-    
+
     if (message.hasOwnProperty("metadata")) {
 
         const metadata = message.metadata;
@@ -115,74 +117,40 @@ const dateDiffInDays = (a, b) => {
 }
 
 
-export const getTimeStampForLastMessage = (timestamp, lang) => {
+export const getTimeOrDateInPast = (timestamp, lang) => {
 
     const timeStampInMilliSeconds = timestamp * 1000;
 
     const messageTimestamp = new Date(timeStampInMilliSeconds);
     const currentTimestamp = new Date(Date.now());
 
+    const dateToDisplay = moment(messageTimestamp).local();
+
     const dateDifferenceInDays = dateDiffInDays(messageTimestamp, currentTimestamp);
 
     if (dateDifferenceInDays < 1) {
-
-        timestamp = dateFormat(messageTimestamp, "shortTime");
-
+        timestamp = dateToDisplay.format(getTimeFormat(lang));
     } else if (dateDifferenceInDays < 2) {
-
-        timestamp = Translator.translate("YESTERDAY", lang);
-
-    } else if (dateDifferenceInDays < 7) {
-
-        timestamp = dateFormat(messageTimestamp, "dddd");
-        timestamp = Translator.translate(timestamp, lang);
-
-    } else {
-
-        timestamp = dateFormat(messageTimestamp, "dS mmm");
+        timestamp = I18n.t('cmtcht_common_yesterday');
+    } else  {
+        timestamp = dateToDisplay.format(getDateFormat(lang));
     }
 
     return timestamp;
 }
 
-export const getMessageSentTime = (timestamp, lang) => {
-
-    let oTimestamp = null;
-
-    const messageTimestamp = new Date(timestamp) * 1000;
-    oTimestamp = dateFormat(messageTimestamp, "shortTime");
-
-    return oTimestamp;
-}
-
-export const getMessageDate = (timestamp, lang) => {
-
+export const getFormattedTime = (timestamp, lang) => {
     const timeStampInMilliSeconds = timestamp * 1000;
+    const messageTimestamp = moment(new Date(timeStampInMilliSeconds)).local();
 
-    const messageTimestamp = new Date(timeStampInMilliSeconds);
-    const currentTimestamp = new Date(Date.now());
+    return messageTimestamp.format(getTimeFormat(lang));
+}
 
-    const dateDifferenceInDays = dateDiffInDays(messageTimestamp, currentTimestamp);
+export const getFormattedDate = (timestamp, lang) => {
+    const timeStampInMilliSeconds = timestamp * 1000;
+    const messageTimestamp = moment(new Date(timeStampInMilliSeconds)).local();
 
-    if (dateDifferenceInDays < 1) {
-
-        timestamp = Translator.translate("TODAY", lang);
-
-    } else if (dateDifferenceInDays < 2) {
-
-        timestamp = Translator.translate("YESTERDAY", lang);
-
-    } else if (dateDifferenceInDays < 7) {
-
-        timestamp = dateFormat(messageTimestamp, "dddd");
-        timestamp = Translator.translate(timestamp, lang);
-
-    } else {
-
-        timestamp = dateFormat(timeStampInMilliSeconds, "dS mmm, yyyy");
-    }
-
-    return timestamp;
+    return messageTimestamp.format(getDateFormat(lang));
 }
 
 export const countEmojiOccurences = (string, word) =>  {
@@ -194,10 +162,10 @@ export const countEmojiOccurences = (string, word) =>  {
 
         if(content.length>0){
             return 3;
-            
+
         }else{
             return string.split(word).length - 1;
         }
-        
+
         }
  }

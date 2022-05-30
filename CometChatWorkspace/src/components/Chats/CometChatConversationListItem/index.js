@@ -9,11 +9,13 @@ import {CometChatAvatar, CometChatBadgeCount, CometChatUserPresence } from "../.
 import {CometChatConversationListActions} from "../CometChatConversationListActions";
 
 import * as enums from "../../../util/enums.js";
-import { checkMessageForExtensionsData, getTimeStampForLastMessage } from "../../../util/common";
+import { checkMessageForExtensionsData } from "../../../util/common";
 import { CometChatContext } from "../../../util/CometChatContext"
 
 import { theme } from "../../../resources/theme";
 import Translator from "../../../resources/localization/translator";
+
+import { FormattedPastDate } from "../../DateAndTimeWrapper"
 
 import {
   listItem,
@@ -117,7 +119,6 @@ class CometChatConversationListItem extends React.PureComponent {
 		}
 
 		let timestamp = this.props.conversation.lastMessage._composedAt || this.props.conversation.lastMessage.sentAt;
-		timestamp = getTimeStampForLastMessage(timestamp, this.context.language);
 
 		return timestamp;
 	};
@@ -396,7 +397,7 @@ class CometChatConversationListItem extends React.PureComponent {
 		if (this.state.lastMessage) {
 			lastMessageTimeStamp = (
 				<span css={itemLastMsgTimeStyle(this.props)} className="item__details__timestamp">
-					{this.state.lastMessageTimestamp}
+          <FormattedPastDate timestamp={this.state.lastMessageTimestamp}/>
 				</span>
 			);
 		}
@@ -450,19 +451,20 @@ class CometChatConversationListItem extends React.PureComponent {
 	}
 }
 
+
 // Specifies the default values for props:
 CometChatConversationListItem.defaultProps = {
 	theme: theme,
 	loggedInUser: null,
 	conversation: {
 		conversationWith: {}
-	}
+	},
 };
 
 CometChatConversationListItem.propTypes = {
 	theme: PropTypes.object,
 	loggedInUser: PropTypes.shape(CometChat.User),
-	conversation: PropTypes.shape(CometChat.Conversation)
+	conversation: PropTypes.shape(CometChat.Conversation),
 }
 
 export { CometChatConversationListItem };

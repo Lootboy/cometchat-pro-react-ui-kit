@@ -1,5 +1,4 @@
 import React from "react";
-import dateFormat from "dateformat";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
@@ -7,6 +6,7 @@ import PropTypes from "prop-types";
 import { CometChat } from "@cometchat-pro/chat";
 
 import { MessageHeaderManager } from "./controller";
+import I18n from 'i18n-js';
 
 import { CometChatAvatar, CometChatUserPresence } from "../../Shared";
 
@@ -32,6 +32,8 @@ import menuIcon from "./resources/menu.svg";
 import audioCallIcon from "./resources/audio-call.svg";
 import videoCallIcon from "./resources/video-call.svg";
 import detailPaneIcon from "./resources/info.svg";
+
+import { FormattedPastDate } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
 
 class CometChatMessageHeader extends React.Component {
 	item;
@@ -128,16 +130,15 @@ class CometChatMessageHeader extends React.Component {
 		const presence = this.context.item.status === CometChat.USER_STATUS.ONLINE ? CometChat.USER_STATUS.ONLINE : CometChat.USER_STATUS.OFFLINE;
 
 		if (this.context.item.status === CometChat.USER_STATUS.OFFLINE && this.context.item.lastActiveAt) {
-			const lastActive = this.context.item.lastActiveAt * 1000;
-			const messageDate = dateFormat(lastActive, "dS mmm yyyy, h:MM TT");
 
-			status = `${Translator.translate("LAST_ACTIVE_AT", this.props.lang)}: ${messageDate}`;
+			// status is set here as number to be later converted to correct date format with FormattedPastDate
+      status = this.context.item.lastActiveAt;
 		} else if (this.context.item.status === CometChat.USER_STATUS.OFFLINE) {
 			status = Translator.translate("OFFLINE", this.props.lang);
 		} else if (this.context.item.status === CometChat.USER_STATUS.ONLINE) {
 			status = Translator.translate("ONLINE", this.props.lang);
 		}
-		
+
 		this.setState({status: status, presence: presence});
 	};
 
@@ -572,7 +573,9 @@ class CometChatMessageHeader extends React.Component {
 
 		let status = (
 			<span css={chatStatusStyle(this.state, this.context)} className={chatStatusClassName}>
-				{this.state.status}
+        { typeof this.state.status === 'number'
+          ? <FormattedPastDate timestamp={this.state.status} />
+          : this.state.status}
 			</span>
 		);
 

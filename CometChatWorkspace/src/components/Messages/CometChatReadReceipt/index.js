@@ -5,7 +5,6 @@ import { jsx } from "@emotion/core";
 import PropTypes from "prop-types";
 import { CometChat } from "@cometchat-pro/chat";
 
-import { getMessageSentTime } from "../../../util/common";
 import { CometChatContext } from "../../../util/CometChatContext"
 
 import Translator from "../../../resources/localization/translator";
@@ -18,6 +17,7 @@ import greyDoubleTick from "./resources/message-delivered.svg";
 import greyTick from "./resources/message-sent.svg";
 import sendingTick from "./resources/wait.svg";
 import errorTick from "./resources/warning-small.svg";
+import { FormattedTime } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
 
 class CometChatReadReceipt extends React.PureComponent {
 	static contextType = CometChatContext;
@@ -135,12 +135,10 @@ class CometChatReadReceipt extends React.PureComponent {
 
 		const receipt = ticks ? <i css={iconStyle(ticks, color)} title={Translator.translate(receiptText, this.context.language)}></i> : null;
 
-		const timestamp = getMessageSentTime(dateField, this.context.language);
-
 		return (
 			<React.Fragment>
 				<span css={msgTimestampStyle(this.context, this.props, this.loggedInUser)} className="message__timestamp">
-					{timestamp}
+					<FormattedTime timestamp={dateField} />
 				</span>
 				{receipt}
 			</React.Fragment>
