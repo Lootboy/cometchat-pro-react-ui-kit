@@ -15,10 +15,10 @@ import * as enums from "../../../util/enums.js";
 import { theme } from "../../../resources/theme";
 import Translator from "../../../resources/localization/translator";
 
-import { 
-  contactWrapperStyle, 
-  contactHeaderStyle, 
-  contactHeaderCloseStyle, 
+import {
+  contactWrapperStyle,
+  contactHeaderStyle,
+  contactHeaderCloseStyle,
   contactHeaderTitleStyle,
   contactSearchStyle,
   contactSearchButtonStyle,
@@ -31,6 +31,7 @@ import {
 
 import searchIcon from "./resources/search.svg";
 import navigateIcon from "./resources/back.svg";
+import I18n from 'i18n-js';
 
 class CometChatUserList extends React.PureComponent {
 
@@ -45,7 +46,7 @@ class CometChatUserList extends React.PureComponent {
 		this.state = {
 			userlist: [],
 			enableSearchUser: false,
-			decoratorMessage: Translator.translate("LOADING", props.lang),
+			decoratorMessage: I18n.t('cmtcht_common_loading'),
 		};
 
 		this.contextProviderRef = React.createRef();
@@ -53,7 +54,7 @@ class CometChatUserList extends React.PureComponent {
 
 		CometChat.getLoggedinUser()
 			.then(user => (this.loggedInUser = user))
-			.catch(error => this.setState({ decoratorMessage: Translator.translate("SOMETHING_WRONG", this.props.lang) }));
+			.catch(error => this.setState({ decoratorMessage:  I18n.t('cmtcht_common_unknown') }));
 	}
 
 	componentDidMount() {
@@ -67,13 +68,13 @@ class CometChatUserList extends React.PureComponent {
 				this.getUsers();
 				this.UserListManager.attachListeners(this.userUpdated);
 			})
-			.catch(error => this.setState({ decoratorMessage: Translator.translate("SOMETHING_WRONG", this.props.lang) }));
+			.catch(error => this.setState({ decoratorMessage: I18n.t('cmtcht_common_unknown') }));
 	}
 
 	componentDidUpdate(prevProps) {
 
 		//if user is blocked/unblocked, update userlist
-		if (this.item 
+		if (this.item
 		&& Object.keys(this.item).length
 		&& this.getContext().type === CometChat.ACTION_TYPE.TYPE_USER && this.item.uid === this.getContext().item.uid
 		&& this.item.blockedByMe !== this.getContext().item.blockedByMe) {
@@ -86,7 +87,7 @@ class CometChatUserList extends React.PureComponent {
 
 				let userObject = { ...userlist[userKey] };
 				let newUserObject = Object.assign({}, userObject, { blockedByMe: this.getContext().item.blockedByMe });
-				
+
 				userlist.splice(userKey, 1, newUserObject);
 				this.setState({ userlist: userlist });
 			}
@@ -123,12 +124,12 @@ class CometChatUserList extends React.PureComponent {
 	}
 
 	userUpdated = (user) => {
-		
+
 		let userlist = [...this.state.userlist];
 
 		//search for user
 		let userKey = userlist.findIndex(u => u.uid === user.uid);
-		
+
 		//if found in the list, update user object
 		if(userKey > -1) {
 
@@ -163,7 +164,7 @@ class CometChatUserList extends React.PureComponent {
 
 		this.props.actionGenerated(enums.ACTIONS["TOGGLE_SIDEBAR"]);
   	}
-  
+
  	searchUsers = (e) => {
 
 		if (this.timeout) {
@@ -175,10 +176,10 @@ class CometChatUserList extends React.PureComponent {
 		this.UserListManager.initializeUsersRequest()
 			.then(response => {
 				this.timeout = setTimeout(() => {
-					this.setState({ userlist: [], decoratorMessage: Translator.translate("LOADING", this.props.lang) }, () => this.getUsers());
+					this.setState({ userlist: [], decoratorMessage: I18n.t('cmtcht_common_loading') }, () => this.getUsers());
 				}, 500);
 			})
-			.catch(error => this.setState({ decoratorMessage: Translator.translate("SOMETHING_WRONG", this.props.lang) }));
+			.catch(error => this.setState({ decoratorMessage: I18n.t('cmtcht_common_unknown') }));
   	}
 
 	getUsers = () => {
@@ -188,14 +189,14 @@ class CometChatUserList extends React.PureComponent {
 
 				if (userList.length === 0) {
 					if (this.state.userlist.length === 0) {
-						this.setState({ decoratorMessage: Translator.translate("NO_USERS_FOUND", this.props.lang) });
+						this.setState({ decoratorMessage: I18n.t('cmtcht_groups_nousers') });
 					}
 				} else {
 					this.setState({ userlist: [...this.state.userlist, ...userList], decoratorMessage: "" });
 				}
-				
+
 			})
-			.catch(error => this.setState({ decoratorMessage: Translator.translate("SOMETHING_WRONG", this.props.lang) }));
+			.catch(error => this.setState({ decoratorMessage: I18n.t('cmtcht_common_unknown') }));
 	}
 
 	getContext = () => {
@@ -222,9 +223,9 @@ class CometChatUserList extends React.PureComponent {
 
 		const userList = [...this.state.userlist];
 		let currentLetter = "";
-		
+
 		const users = userList.map(user => {
-		
+
 			const chr = user.name[0].toUpperCase();
 			let firstChar = null;
 			if (chr !== currentLetter) {
@@ -233,7 +234,7 @@ class CometChatUserList extends React.PureComponent {
 			} else {
 				firstChar = null;
 			}
-			
+
 			let selectedUser = (this.getContext().type === CometChat.ACTION_TYPE.TYPE_USER && this.getContext().item.uid === user.uid) ? user : null;
 
 			return (
@@ -255,7 +256,7 @@ class CometChatUserList extends React.PureComponent {
 			searchUser = (
 				<div css={contactSearchStyle()} className="contacts__search">
 					<button type="button" className="search__button" css={contactSearchButtonStyle(searchIcon, theme)} />
-					<input type="text" autoComplete="off" css={contactSearchInputStyle(this.props)} className="search__input" placeholder={Translator.translate("SEARCH", this.props.lang)} onChange={this.searchUsers} />
+					<input type="text" autoComplete="off" css={contactSearchInputStyle(this.props)} className="search__input" placeholder={I18n.t('cmtcht_common_search')} onChange={this.searchUsers} />
 				</div>
 			);
 		}

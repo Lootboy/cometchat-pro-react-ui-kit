@@ -31,6 +31,7 @@ import privacyIcon from "./resources/privacy.svg";
 import chatIcon from "./resources/chats.svg";
 import helpIcon from "./resources/help.svg";
 import reportIcon from "./resources/warning.svg";
+import I18n from 'i18n-js';
 
 class CometChatUserProfile extends React.Component {
 
@@ -46,7 +47,7 @@ class CometChatUserProfile extends React.Component {
 	}
 
 	componentDidMount() {
-		
+
 		CometChat.getLoggedinUser().then(user => {
 			this.setState({ loggedInUser: user });
 		}).catch(error => this.toastRef.setError("SOMETHING_WRONG"));
@@ -62,7 +63,7 @@ class CometChatUserProfile extends React.Component {
 				<React.Fragment>
 					<div css={headerStyle(this.props)} className="userinfo__header">
 						<h4 css={headerTitleStyle()} className="header__title">
-							{Translator.translate("MORE", this.props.lang)}
+							{I18n.t('cmtcht_common_more')}
 						</h4>
 					</div>
 					<div css={detailStyle()} className="userinfo__detail">
@@ -74,43 +75,43 @@ class CometChatUserProfile extends React.Component {
 								{this.state.loggedInUser.name}
 							</div>
 							<p css={userStatusStyle(this.props)} className="user__status">
-								{Translator.translate("ONLINE", this.props.lang)}
+								{I18n.t('cmtcht_chats_status_online')}
 							</p>
 						</div>
 					</div>
 					<div css={optionsStyle()} className="userinfo__options">
 						<div css={optionTitleStyle(this.props)} className="options__title">
-							{Translator.translate("PREFERENCES", this.props.lang)}
+							{I18n.t('cmtcht_common_preferences')}
 						</div>
 						<div css={optionListStyle()} className="options_list">
 							<div css={optionStyle(notificationIcon)} className="option option-notification">
 								<div css={optionNameStyle()} className="option_name">
-									{Translator.translate("NOTIFICATIONS", this.props.lang)}
+									{I18n.t('cmtcht_common_notifications')}
 								</div>
 							</div>
 							<div css={optionStyle(privacyIcon)} className="option option-privacy">
 								<div css={optionNameStyle()} className="option_name">
-									{Translator.translate("PRIVACY_AND_SECURITY", this.props.lang)}
+									{I18n.t('cmtcht_common_privacy')}
 								</div>
 							</div>
 							<div css={optionStyle(chatIcon)} className="option option-chats">
 								<div css={optionNameStyle()} className="option_name">
-									{Translator.translate("CHATS", this.props.lang)}
+									{I18n.t('cmtcht_common_chats')}
 								</div>
 							</div>
 						</div>
 						<div css={optionTitleStyle(this.props)} className="options__title">
-							{Translator.translate("OTHER", this.props.lang)}
+							{I18n.t('cmtcht_common_other')}
 						</div>
 						<div css={optionListStyle()} className="options_list">
 							<div css={optionStyle(helpIcon)} className="option option-help">
 								<div css={optionNameStyle()} className="option_name">
-									{Translator.translate("HELP", this.props.lang)}
+									{I18n.t('cmtcht_common_help')}
 								</div>
 							</div>
 							<div css={optionStyle(reportIcon)} className="option option-report">
 								<div css={optionNameStyle()} className="option_name">
-									{Translator.translate("REPORT_PROBLEM", this.props.lang)}
+									{I18n.t('cmtcht_common_report')}
 								</div>
 							</div>
 						</div>

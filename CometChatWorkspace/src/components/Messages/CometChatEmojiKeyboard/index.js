@@ -10,6 +10,7 @@ import Translator from "../../../resources/localization/translator";
 import {
     pickerStyle
 } from "./style";
+import I18n from 'i18n-js';
 
 class CometChatEmojiKeyboard extends React.Component {
 
@@ -34,7 +35,7 @@ class CometChatEmojiKeyboard extends React.Component {
         const title = Translator.translate("PICK_YOUR_EMOJI", props.lang);
 
         this.state = {
-            categories: categories, 
+            categories: categories,
             title: title
         }
     }
@@ -44,7 +45,7 @@ class CometChatEmojiKeyboard extends React.Component {
         if(prevProps.lang !== this.props.lang) {
 
             const categories = {
-                search: Translator.translate("SEARCH", this.props.lang),
+                search: I18n.t('cmtcht_common_search'),
                 people: Translator.translate("SMILEY_PEOPLE", this.props.lang),
                 nature: Translator.translate("ANIMALES_NATURE", this.props.lang),
                 foods: Translator.translate("FOOD_DRINK", this.props.lang),
@@ -73,7 +74,7 @@ class CometChatEmojiKeyboard extends React.Component {
             onClick={this.props.emojiClicked}
             showPreview={false}
             exclude={exclude}
-            i18n={{ categories: this.state.categories }} 
+            i18n={{ categories: this.state.categories }}
             style={{ bottom: "100px", "zIndex": "2", "width": "100%", height: "230px" }} />
             </div>
         );

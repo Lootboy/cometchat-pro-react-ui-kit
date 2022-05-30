@@ -12,6 +12,7 @@ import {conversationActionStyle, groupButtonStyle} from "./style.js";
 
 import loadingIcon from "./resources/progress.svg";
 import deleteIcon from "./resources/delete.svg";
+import I18n from 'i18n-js';
 
 class CometChatConversationListActions extends React.PureComponent {
 	static contextType = CometChatContext;
@@ -55,7 +56,7 @@ class CometChatConversationListActions extends React.PureComponent {
 				type="button"
 				css={groupButtonStyle(this.state.deleteInProgress, loadingIcon, deleteIcon)}
 				className="group__button button__delete"
-				data-title={Translator.translate("DELETE", this.context.language)}
+				data-title={I18n.t('RadarView_frequest_delete')}
 				onMouseEnter={event => this.toggleTooltip(event, true)}
 				onMouseLeave={event => this.toggleTooltip(event, false)}
 				onClick={this.deleteConversation} />

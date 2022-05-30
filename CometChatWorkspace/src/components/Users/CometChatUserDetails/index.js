@@ -14,7 +14,6 @@ import { UserDetailManager } from "./controller";
 import { CometChatContext } from "../../../util/CometChatContext";
 import * as enums from "../../../util/enums.js";
 
-import Translator from "../../../resources/localization/translator";
 import { theme } from "../../../resources/theme";
 
 import {
@@ -39,6 +38,7 @@ import {
 
 import navigateIcon from "./resources/back.svg";
 import { FormattedPastDate } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
+import I18n from 'i18n-js';
 
 class CometChatUserDetails extends React.Component {
 	static contextType = CometChatContext;
@@ -123,9 +123,9 @@ class CometChatUserDetails extends React.Component {
 
 					let status = "";
 					if (user.status === CometChat.USER_STATUS.OFFLINE) {
-						status = Translator.translate("OFFLINE", this.props.lang);
+						status = I18n.t('cmtcht_chats_status_offline');
 					} else if (user.status === CometChat.USER_STATUS.ONLINE) {
-						status = Translator.translate("ONLINE", this.props.lang);
+						status = I18n.t('cmtcht_chats_status_online');
 					}
 					this.setState({ status: status });
 				}
@@ -143,9 +143,9 @@ class CometChatUserDetails extends React.Component {
       // status is set here as number to be later converted to correct date format with FormattedPastDate
 			status = this.context.item.lastActiveAt;
 		} else if (this.context.item.status === CometChat.USER_STATUS.OFFLINE) {
-			status = Translator.translate("OFFLINE", this.props.lang);
+			status = I18n.t('cmtcht_chats_status_offline');
 		} else if (this.context.item.status === CometChat.USER_STATUS.ONLINE) {
-			status = Translator.translate("ONLINE", this.props.lang);
+			status = I18n.t('cmtcht_chats_status_online');
 		}
 
 		this.setState({ status: status });
@@ -223,11 +223,11 @@ class CometChatUserDetails extends React.Component {
 		CometChat.unblockUsers(usersList)
 			.then(response => {
 				if (response && response.hasOwnProperty(uid) && response[uid].hasOwnProperty("success") && response[uid]["success"] === true) {
-					
+
 					const newType = CometChat.ACTION_TYPE.TYPE_USER;
 					const newItem = Object.assign({}, this.context.item, { blockedByMe: false });
 					this.context.setTypeAndItem(newType, newItem);
-					
+
 				} else {
 					this.toastRef.setError("SOMETHING_WRONG");
 				}
@@ -255,12 +255,12 @@ class CometChatUserDetails extends React.Component {
 				<div css={sectionStyle()} className="detailpane__section">
 					<div css={actionSectionStyle(this.context)} className="section section__viewprofile">
 						<h6 css={sectionHeaderStyle(this.props)} className="section__header">
-							{Translator.translate("ACTIONS", this.context.language)}
+              {I18n.t('cmtcht_chats_actions')}
 						</h6>
 						<div css={sectionContentStyle()} className="section__content">
 							<div css={contentItemStyle()} className="content__item">
 								<div css={itemLinkStyle(this.context)} className="item__link" onClick={this.viewProfile}>
-									{Translator.translate("VIEW_PROFILE", this.context.language)}
+                  {I18n.t('cmtcht_users_profile_view')}
 								</div>
 							</div>
 						</div>
@@ -273,13 +273,13 @@ class CometChatUserDetails extends React.Component {
 		if (this.context.item.blockedByMe) {
 			blockUserText = (
 				<div css={itemLinkStyle(this.context)} className="item__link" onClick={this.unblockUser}>
-					{Translator.translate("UNBLOCK_USER", this.context.language)}
+          {I18n.t('cmtcht_chats_unblock')}
 				</div>
 			);
 		} else {
 			blockUserText = (
 				<div css={itemLinkStyle(this.context)} className="item__link" onClick={this.blockUser}>
-					{Translator.translate("BLOCK_USER", this.context.language)}
+          {I18n.t('cmtcht_chats_block')}
 				</div>
 			);
 		}
@@ -288,7 +288,7 @@ class CometChatUserDetails extends React.Component {
 			<div css={sectionStyle()} className="detailpane__section">
 				<div css={privacySectionStyle(this.context)} className="section section__privacy">
 					<h6 css={sectionHeaderStyle(this.context)} className="section__header">
-						{Translator.translate("OPTIONS", this.context.language)}
+            {I18n.t('cmtcht_common_options')}
 					</h6>
 					<div css={sectionContentStyle()} className="section__content">
 						<div css={contentItemStyle()} className="content__item">
@@ -320,7 +320,7 @@ class CometChatUserDetails extends React.Component {
 				<div css={headerStyle(this.context)} className="detailpane__header">
 					<div css={headerCloseStyle(navigateIcon, this.context)} className="header__close" onClick={this.closeDetailView}></div>
 					<h4 css={headerTitleStyle()} className="header__title">
-						{Translator.translate("DETAILS", this.context.language)}
+            {I18n.t('cmtcht_common_details')}
 					</h4>
 				</div>
 				<div css={sectionStyle()} className="detailpane__section">

@@ -28,6 +28,7 @@ import {
 
 import clearIcon from "./resources/close.svg";
 import transferIcon from "./resources/transferring.svg";
+import I18n from 'i18n-js';
 
 class CometChatTransferOwnershipMemberList extends React.Component {
 	static contextType = CometChatContext;
@@ -92,7 +93,7 @@ class CometChatTransferOwnershipMemberList extends React.Component {
 			this.props.actionGenerated(enums.ACTIONS["OWNERSHIP_TRANSFERRED"], uid);
 
 		}).catch(error => {
-			this.setState({ transferringOwnership: false, errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) });
+			this.setState({ transferringOwnership: false, errorMessage: I18n.t('cmtcht_common_unknown') });
 		});
 	};
 
@@ -134,9 +135,9 @@ class CometChatTransferOwnershipMemberList extends React.Component {
 			<React.Fragment>
 				<CometChatBackdrop show={true} clicked={this.props.close} />
 				<div css={modalWrapperStyle(this.props, this.context)} className="modal__groupmembers">
-					<span css={modalCloseStyle(clearIcon, this.context)} className="modal__close" onClick={this.props.close} title={Translator.translate("CLOSE", this.context.language)}></span>
+					<span css={modalCloseStyle(clearIcon, this.context)} className="modal__close" onClick={this.props.close} title={I18n.t('cmtcht_common_close')}></span>
 					<div css={modalBodyStyle()} className="modal__body">
-						<div css={modalCaptionStyle(Translator.getDirection(this.context.language))} className="modal__title">{Translator.translate("GROUP_MEMBERS", this.context.language)}</div>
+						<div css={modalCaptionStyle(Translator.getDirection(this.context.language))} className="modal__title">{I18n.t('cmtcht_groups_members')}</div>
 						<div css={modalErrorStyle(this.context)} className="modal__error">{this.state.errorMessage}</div>
 						<div css={modalListStyle(this.context)} className="modal__content">
 							<div css={listHeaderStyle(this.context)} className="content__header">

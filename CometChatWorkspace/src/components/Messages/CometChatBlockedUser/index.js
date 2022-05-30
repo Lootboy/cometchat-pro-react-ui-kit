@@ -11,16 +11,17 @@ import * as enums from "../../../util/enums.js";
 
 import Translator from "../../../resources/localization/translator";
 
-import { 
-    blockedMessageWrapperStyle, 
+import {
+    blockedMessageWrapperStyle,
     blockedMessageContainerStyle,
     unblockButtonStyle,
     blockedTitleStyle,
     bockedSubTitleStyle
 } from "./style";
+import I18n from 'i18n-js';
 
 const CometChatBlockedUser = props => {
-    
+
 	const context = React.useContext(CometChatContext);
 	const chatWith = { ...context.item };
 
@@ -44,11 +45,11 @@ const CometChatBlockedUser = props => {
 	return (
 		<div css={blockedMessageWrapperStyle()} className="">
 			<div css={blockedMessageContainerStyle()}>
-				<div css={blockedTitleStyle()}>{Translator.translate("YOU_HAVE_BLOCKED", props.lang) + " " + chatWith.name}</div>
+				<div css={blockedTitleStyle()}>{I18n.t('cmtcht_chats_message_blocked')}</div>
 				<div css={bockedSubTitleStyle(context)}>{Translator.translate("NOT_POSSIBLE_TO_SEND_MESSAGES", props.lang)}</div>
 			</div>
 			<button type="button" css={unblockButtonStyle(context)} onClick={unblockUser}>
-				{Translator.translate("UNBLOCK", props.lang)}
+				{I18n.t('cmtcht_chats_unblock')}
 			</button>
 		</div>
 	);

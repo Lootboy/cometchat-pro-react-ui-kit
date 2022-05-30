@@ -9,9 +9,8 @@ import * as enums from "./enums.js";
 import Translator from "../resources/localization/translator";
 import { FeatureRestriction } from "./FeatureRestriction";
 import { theme } from "../resources/theme";
-import { languageSelector } from '~/redux/selectors';
-import { connect } from 'react-redux';
 
+import I18n from 'i18n-js';
 export const CometChatContext = React.createContext({});
 
 class CometChatContextProvider extends React.Component {
@@ -45,9 +44,9 @@ class CometChatContextProvider extends React.Component {
 			theme: theme,
 			language: props.language,
 			roles: {
-				[CometChat.GROUP_MEMBER_SCOPE.ADMIN]: Translator.translate("ADMINISTRATOR", props.language),
-				[CometChat.GROUP_MEMBER_SCOPE.MODERATOR]: Translator.translate("MODERATOR", props.language),
-				[CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT]: Translator.translate("PARTICIPANT", props.language),
+				[CometChat.GROUP_MEMBER_SCOPE.ADMIN]: I18n.t('cmtcht_groups_admin'),
+				[CometChat.GROUP_MEMBER_SCOPE.MODERATOR]: I18n.t('cmtcht_groups_moderator'),
+				[CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT]: I18n.t('cmtcht_groups_participant'),
 			},
 			getLoggedinUser: this.getLoggedinUser,
 			setGroupMembers: this.setGroupMembers,
@@ -157,9 +156,9 @@ class CometChatContextProvider extends React.Component {
 
 	setRoles = () => {
 		const roles = {
-			[CometChat.GROUP_MEMBER_SCOPE.ADMIN]: Translator.translate("ADMINISTRATOR", this.props.language),
-			[CometChat.GROUP_MEMBER_SCOPE.MODERATOR]: Translator.translate("MODERATOR", this.props.language),
-			[CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT]: Translator.translate("PARTICIPANT", this.props.language),
+      [CometChat.GROUP_MEMBER_SCOPE.ADMIN]: I18n.t('cmtcht_groups_admin'),
+      [CometChat.GROUP_MEMBER_SCOPE.MODERATOR]: I18n.t('cmtcht_groups_moderator'),
+      [CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT]: I18n.t('cmtcht_groups_participant'),
 		};
 		this.setState({ roles: roles });
 	};
@@ -193,7 +192,7 @@ class CometChatContextProvider extends React.Component {
 						const groupType = group.type;
 						let password = "";
 						if (groupType === CometChat.GROUP_TYPE.PASSWORD) {
-							const promptMessage = Translator.translate("Enter password", this.props.lang);
+							const promptMessage = I18n.t('cmtcht_groups_inputpass');
 							password = prompt(promptMessage);
 						}
 

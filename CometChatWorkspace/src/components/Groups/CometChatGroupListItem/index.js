@@ -19,16 +19,17 @@ import {
 	itemDetailStyle,
 	itemNameWrapperStyle,
 	itemDescStyle,
-	listItemName  
+	listItemName
 } from "./style";
 
 import shieldIcon from "./resources/password-protected-group.svg";
 import lockIcon from "./resources/private-group.svg";
+import I18n from 'i18n-js';
 
 class CometChatGroupListItem extends React.PureComponent {
 
 	static contextType = CometChatContext;
-	
+
 	toggleTooltip = (event, flag) => {
 
 		const elem = event.target;
@@ -73,7 +74,7 @@ class CometChatGroupListItem extends React.PureComponent {
 						<p css={listItemName(this.context)}>{this.props.group.name}</p>
 						<div css={listItemIcon()}>{groupTypeIcon}</div>
 					</div>
-					<div css={itemDescStyle(this.context)} className="item__details__desc">{`${this.props.group.membersCount} ${Translator.translate("MEMBERS", this.context.language)}`}</div>
+					<div css={itemDescStyle(this.context)} className="item__details__desc">{`${this.props.group.membersCount} ${I18n.t('cmtcht_groups_members')}`}</div>
 				</div>
 			</div>
 		);
