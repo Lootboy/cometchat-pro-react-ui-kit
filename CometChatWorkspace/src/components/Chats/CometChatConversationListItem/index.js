@@ -26,6 +26,7 @@ import {
   itemLastMsgStyle,
   itemLastMsgTimeStyle
 } from "./style";
+import I18n from 'i18n-js';
 
 class CometChatConversationListItem extends React.PureComponent {
 	static contextType = CometChatContext;
@@ -82,7 +83,7 @@ class CometChatConversationListItem extends React.PureComponent {
 			if (this.state.enableHideDeletedMessages) {
 				message = "";
 			} else {
-				message = this.props.loggedInUser.uid === lastMessage.sender.uid ? `${Translator.translate("YOU_DELETED_THIS_MESSAGE", this.context.language)}` : `${Translator.translate("THIS_MESSAGE_DELETED", this.context.language)}`;
+				message = this.props.loggedInUser.uid === lastMessage.sender.uid ? I18n.t('cmtcht_chats_youdeleted') : I18n.t('cmtcht_chats_deleted');
 			}
 		} else {
 			switch (lastMessage.category) {
@@ -130,31 +131,31 @@ class CometChatConversationListItem extends React.PureComponent {
 		switch (lastMessage.type) {
 			case enums.CUSTOM_TYPE_POLL:
 				{
-					const pollMessage = Translator.translate("CUSTOM_MESSAGE_POLL", this.context.language);
+					const pollMessage = I18n.t('cmtcht_chats_message_poll');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${pollMessage}` : `${pollMessage}`;
 				}
 				break;
 			case enums.CUSTOM_TYPE_STICKER:
 				{
-					const stickerMessage = Translator.translate("CUSTOM_MESSAGE_STICKER", this.context.language);
+					const stickerMessage = I18n.t('cmtcht_chats_message_sticker');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${stickerMessage}` : `${stickerMessage}`;
 				}
 				break;
 			case enums.CUSTOM_TYPE_DOCUMENT:
 				{
-					const docMessage = Translator.translate("CUSTOM_MESSAGE_DOCUMENT", this.context.language);
+					const docMessage = I18n.t('cmtcht_chats_document');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${docMessage}` : `${docMessage}`;
 				}
 				break;
 			case enums.CUSTOM_TYPE_WHITEBOARD:
 				{
-					const whiteboardMessage = Translator.translate("CUSTOM_MESSAGE_WHITEBOARD", this.context.language);
+					const whiteboardMessage = I18n.t('cmtcht_chats_message_custom');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${whiteboardMessage}` : `${whiteboardMessage}`;
 				}
 				break;
 			case enums.CUSTOM_TYPE_MEETING:
 				{
-					const meetingMessage = Translator.translate("VIDEO_CALL", this.context.language);
+					const meetingMessage = I18n.t('cmtcht_chats_message_videocall');
 					message = `${sender} ${meetingMessage}`;
 				}
 				break;
@@ -201,37 +202,37 @@ class CometChatConversationListItem extends React.PureComponent {
 				break;
 			case CometChat.MESSAGE_TYPE.MEDIA:
 				{
-					const mediaMessage = Translator.translate("MEDIA_MESSAGE", this.context.language);
+					const mediaMessage = I18n.t('cmtcht_chats_message_media');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${mediaMessage}` : `${mediaMessage}`;
 				}
 				break;
 			case CometChat.MESSAGE_TYPE.IMAGE:
 				{
-					const imageMessage = Translator.translate("MESSAGE_IMAGE", this.context.language);
+					const imageMessage = I18n.t('cmtcht_chats_message_image');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${imageMessage}` : `${imageMessage}`;
 				}
 				break;
 			case CometChat.MESSAGE_TYPE.FILE:
 				{
-					const fileMessage = Translator.translate("MESSAGE_FILE", this.context.language);
+					const fileMessage = I18n.t('cmtcht_chats_message_file');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${fileMessage}` : `${fileMessage}`;
 				}
 				break;
 			case CometChat.MESSAGE_TYPE.VIDEO:
 				{
-					const videoMessage = Translator.translate("MESSAGE_VIDEO", this.context.language);
+					const videoMessage = I18n.t('cmtcht_chats_message_video');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${videoMessage}` : `${videoMessage}`;
 				}
 				break;
 			case CometChat.MESSAGE_TYPE.AUDIO:
 				{
-					const audioMessage = Translator.translate("MESSAGE_AUDIO", this.context.language);
+					const audioMessage = I18n.t('cmtcht_chats_message_audio');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${audioMessage}` : `${audioMessage}`;
 				}
 				break;
 			case CometChat.MESSAGE_TYPE.CUSTOM:
 				{
-					const customMessage = Translator.translate("CUSTOM_MESSAGE", this.context.language);
+					const customMessage = I18n.t('cmtcht_chats_message_custom');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${customMessage}` : `${customMessage}`;
 				}
 				break;
@@ -249,13 +250,13 @@ class CometChatConversationListItem extends React.PureComponent {
 		switch (lastMessage.type) {
 			case CometChat.MESSAGE_TYPE.VIDEO:
 				{
-					const videoMessage = Translator.translate("VIDEO_CALL", this.context.language);
+					const videoMessage = I18n.t('cmtcht_chats_message_videocall');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${videoMessage}` : `${videoMessage}`;
 				}
 				break;
 			case CometChat.MESSAGE_TYPE.AUDIO:
 				{
-					const audioMessage = Translator.translate("AUDIO_CALL", this.context.language);
+					const audioMessage = I18n.t('cmtcht_chats_message_audiocall');
 					message = lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP ? `${sender} ${audioMessage}` : `${audioMessage}`;
 				}
 				break;
@@ -307,26 +308,26 @@ class CometChatConversationListItem extends React.PureComponent {
 
 		switch (message.action) {
 			case CometChat.ACTION_TYPE.MEMBER_ADDED:
-				actionMessage = `${byString} ${Translator.translate("ADDED", this.context.language)} ${forString}`;
+				actionMessage = I18n.t('cmtcht_member_added', { user: byString, user2: forString});
 				break;
 			case CometChat.ACTION_TYPE.MEMBER_JOINED:
-				actionMessage = `${byString} ${Translator.translate("JOINED", this.context.language)}`;
+				actionMessage = I18n.t('cmtcht_member_joined', { user: byString});
 				break;
 			case CometChat.ACTION_TYPE.MEMBER_LEFT:
-				actionMessage = `${byString} ${Translator.translate("LEFT", this.context.language)}`;
+				actionMessage = I18n.t('cmtcht_member_left', { user: byString});
 				break;
 			case CometChat.ACTION_TYPE.MEMBER_KICKED:
-				actionMessage = `${byString} ${Translator.translate("KICKED", this.context.language)} ${forString}`;
+				actionMessage = I18n.t('cmtcht_member_kicked', { user: byString, user2: forString});
 				break;
 			case CometChat.ACTION_TYPE.MEMBER_BANNED:
-				actionMessage = `${byString} ${Translator.translate("BANNED", this.context.language)} ${forString}`;
+				actionMessage = I18n.t('cmtcht_member_banned', { user: byString, user2: forString});
 				break;
 			case CometChat.ACTION_TYPE.MEMBER_UNBANNED:
-				actionMessage = `${byString} ${Translator.translate("UNBANNED", this.context.language)} ${forString}`;
+				actionMessage = I18n.t('cmtcht_member_unbanned', { user: byString, user2: forString});
 				break;
 			case CometChat.ACTION_TYPE.MEMBER_SCOPE_CHANGED: {
 				const newScope = message["data"]["extras"]["scope"]["new"];
-				actionMessage = `${byString} ${Translator.translate("MADE", this.context.language)} ${forString} ${Translator.translate(newScope, this.context.language)}`;
+				actionMessage = I18n.t('cmtcht_member_scope_changed', { user: byString, user2: forString, scope: newScope});
 				break;
 			}
 			default:

@@ -29,6 +29,7 @@ import {
 } from "./style";
 
 import clearIcon from "./resources/close.svg";
+import I18n from 'i18n-js';
 
 class CometChatViewGroupMemberList extends React.Component {
 	static contextType = CometChatContext;
@@ -48,7 +49,7 @@ class CometChatViewGroupMemberList extends React.Component {
 	componentDidMount() {
 		this.updateUserColumnTitle();
 	}
-    
+
 	componentDidUpdate(prevProps) {
 		if (prevProps.lang !== this.props.lang) {
 			this.updateUserColumnTitle();
@@ -99,10 +100,10 @@ class CometChatViewGroupMemberList extends React.Component {
 					this.context.setToastMessage("success", "BAN_GROUPMEMBER_SUCCESS");
 					this.props.actionGenerated(enums.ACTIONS["BAN_GROUPMEMBER_SUCCESS"], memberToBan);
 				} else {
-					this.setState({ errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) });
+					this.setState({ errorMessage: I18n.t('cmtcht_common_unknown') });
 				}
 			})
-			.catch(error => this.setState({ errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) }));
+			.catch(error => this.setState({ errorMessage: I18n.t('cmtcht_common_unknown') }));
 	};
 
 	kickMember = memberToKick => {
@@ -112,10 +113,10 @@ class CometChatViewGroupMemberList extends React.Component {
 				if (response) {
 					this.props.actionGenerated(enums.ACTIONS["KICK_GROUPMEMBER_SUCCESS"], memberToKick);
 				} else {
-					this.setState({ errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) });
+					this.setState({ errorMessage: I18n.t('cmtcht_common_unknown') });
 				}
 			})
-			.catch(error => this.setState({ errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) }));
+			.catch(error => this.setState({ errorMessage: I18n.t('cmtcht_common_unknown') }));
 	};
 
 	changeScope = (member, scope) => {
@@ -127,10 +128,10 @@ class CometChatViewGroupMemberList extends React.Component {
 					const updatedMember = Object.assign({}, member, { scope: scope });
 					this.props.actionGenerated(enums.ACTIONS["SCOPECHANGE_GROUPMEMBER_SUCCESS"], updatedMember);
 				} else {
-					this.setState({ errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) });
+					this.setState({ errorMessage: I18n.t('cmtcht_common_unknown') });
 				}
 			})
-			.catch(error => this.setState({ errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) }));
+			.catch(error => this.setState({ errorMessage: I18n.t('cmtcht_common_unknown') }));
 	};
 
 	setUserColumnTitle = editAccess => {
@@ -166,10 +167,10 @@ class CometChatViewGroupMemberList extends React.Component {
 			editAccess = (
 				<React.Fragment>
 					<div css={actionColumnStyle(this.context)} className="ban">
-						{Translator.translate("BAN", this.context.language)}
+						{I18n.t('cmtcht_groups_ban')}
 					</div>
 					<div css={actionColumnStyle(this.context)} className="kick">
-						{Translator.translate("KICK", this.context.language)}
+						{I18n.t('cmtcht_groups_kick')}
 					</div>
 				</React.Fragment>
 			);
@@ -185,10 +186,10 @@ class CometChatViewGroupMemberList extends React.Component {
 			<React.Fragment>
 				<CometChatBackdrop show={true} clicked={this.props.close} />
 				<div css={modalWrapperStyle(this.context)} className="modal__viewmembers">
-					<span css={modalCloseStyle(clearIcon, this.context)} className="modal__close" onClick={this.props.close} title={Translator.translate("CLOSE", this.context.language)}></span>
+					<span css={modalCloseStyle(clearIcon, this.context)} className="modal__close" onClick={this.props.close} title={I18n.t('cmtcht_common_close')}></span>
 					<div css={modalBodyStyle()} className="modal__body">
 						<div css={modalCaptionStyle(Translator.getDirection(this.context.language))} className="modal__title">
-							{Translator.translate("GROUP_MEMBERS", this.context.language)}
+							{I18n.t('cmtcht_groups_members')}
 						</div>
 						<div css={modalErrorStyle(this.context)} className="modal__error">
 							{this.state.errorMessage}

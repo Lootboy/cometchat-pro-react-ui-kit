@@ -34,6 +34,7 @@ import {
 
 
 import documentIcon from "./resources/collaborative-document.svg";
+import I18n from 'i18n-js';
 
 class CometChatReceiverDocumentBubble extends React.Component {
 	static contextType = CometChatContext;
@@ -51,7 +52,7 @@ class CometChatReceiverDocumentBubble extends React.Component {
 		const currentMessageStr = JSON.stringify(this.props.message);
 		const nextMessageStr = JSON.stringify(nextProps.message);
 
-		if (currentMessageStr !== nextMessageStr 
+		if (currentMessageStr !== nextMessageStr
         || this.state.isHovering !== nextState.isHovering) {
 			return true;
 		}
@@ -133,7 +134,7 @@ class CometChatReceiverDocumentBubble extends React.Component {
 
 								<ul css={messageBtnStyle(this.context)} className="document__button">
 									<li onClick={this.launchCollaborativeDocument}>
-										<p>{Translator.translate("JOIN", this.context.language)}</p>
+										<p>{I18n.t('cmtcht_call_join')}</p>
 									</li>
 								</ul>
 							</div>

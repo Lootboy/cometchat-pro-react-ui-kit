@@ -27,6 +27,7 @@ import {
 } from "./style";
 
 import callIcon from "./resources/video-call.svg";
+import I18n from 'i18n-js';
 
 class CometChatSenderDirectCallBubble extends React.Component {
 	static contextType = CometChatContext;
@@ -44,7 +45,7 @@ class CometChatSenderDirectCallBubble extends React.Component {
 		const currentMessageStr = JSON.stringify(this.props.message);
 		const nextMessageStr = JSON.stringify(nextProps.message);
 
-		if (currentMessageStr !== nextMessageStr 
+		if (currentMessageStr !== nextMessageStr
         || this.state.isHovering !== nextState.isHovering) {
 			return true;
 		}
@@ -86,7 +87,7 @@ class CometChatSenderDirectCallBubble extends React.Component {
 			//ongoing call in same group
 			callMessage = (
 				<li className="directcall__row" title={joinCallMessage}>
-					<p className="directcall__text">{Translator.translate("JOIN", this.context.language)}</p>
+					<p className="directcall__text">{I18n.t('cmtcht_call_join')}</p>
 				</li>
 			);
 		} else if (this.context.checkIfDirectCallIsOngoing() === enums.CONSTANTS.CALLS["ONGOING_CALL_DIFF_GROUP"]) {
@@ -94,7 +95,7 @@ class CometChatSenderDirectCallBubble extends React.Component {
 
 			callMessage = (
 				<li className="directcall__row" title={joinCallMessage}>
-					<p className="directcall__text">{Translator.translate("JOIN", this.context.language)}</p>
+					<p className="directcall__text">{I18n.t('cmtcht_call_join')}</p>
 				</li>
 			);
 		} else if (this.context.checkIfCallIsOngoing()) {
@@ -102,13 +103,13 @@ class CometChatSenderDirectCallBubble extends React.Component {
 
 			callMessage = (
 				<li className="directcall__row" title={joinCallMessage}>
-					<p className="directcall__text">{Translator.translate("JOIN", this.context.language)}</p>
+					<p className="directcall__text">{I18n.t('cmtcht_call_join')}</p>
 				</li>
 			);
 		} else {
 			callMessage = (
 				<li className="directcall__row" onClick={() => this.props.actionGenerated(enums.ACTIONS["JOIN_DIRECT_CALL"], this.props.message)}>
-					<p className="directcall__text">{Translator.translate("JOIN", this.context.language)}</p>
+					<p className="directcall__text">{I18n.t('cmtcht_call_join')}</p>
 				</li>
 			);
 		}
@@ -121,7 +122,7 @@ class CometChatSenderDirectCallBubble extends React.Component {
 				<div css={messageWrapperStyle()} className="message__wrapper">
 					<div css={messageTxtWrapperStyle(this.context)} className="message__directcall__wrapper">
 						<div css={messageTxtContainerStyle()} className="message__directcall__container">
-							<i css={iconStyle(callIcon, this.context)} alt={Translator.translate("VIDEO_CALL", this.context.language)}></i>
+							<i css={iconStyle(callIcon, this.context)} alt={I18n.t('cmtcht_chats_message_videocall')}></i>
 							<p css={messageTxtStyle()} className="directcall__title">
 								{messageTitle}
 							</p>

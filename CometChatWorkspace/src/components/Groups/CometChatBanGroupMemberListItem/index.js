@@ -23,6 +23,7 @@ import {
 } from "./style";
 
 import unban from "./resources/ban-member.svg";
+import I18n from 'i18n-js';
 
 const CometChatBanGroupMemberListItem = (props) => {
 
@@ -30,10 +31,10 @@ const CometChatBanGroupMemberListItem = (props) => {
 
     let name = props.member.name;
     let scope = context.roles[props.member.scope];
-    let unBan = (<i title={Translator.translate("UNBAN", context.language)} onClick={() => { props.actionGenerated(enums.ACTIONS["UNBAN_GROUP_MEMBER"], props.member)}} />);
+    let unBan = (<i title={I18n.t('cmtcht_groups_unban')} onClick={() => { props.actionGenerated(enums.ACTIONS["UNBAN_GROUP_MEMBER"], props.member)}} />);
 
     //if the loggedin user is moderator, don't allow unban of banned moderators or administrators
-    if (context.item.scope === CometChat.GROUP_MEMBER_SCOPE.MODERATOR 
+    if (context.item.scope === CometChat.GROUP_MEMBER_SCOPE.MODERATOR
     && (props.member.scope === CometChat.GROUP_MEMBER_SCOPE.ADMIN || props.member.scope === CometChat.GROUP_MEMBER_SCOPE.MODERATOR)) {
         unBan = null;
     }
@@ -49,21 +50,21 @@ const CometChatBanGroupMemberListItem = (props) => {
 
         const elem = event.currentTarget;
         const nameContainer = elem.lastChild;
-    
+
         const scrollWidth = nameContainer.scrollWidth;
         const clientWidth = nameContainer.clientWidth;
-        
+
         if(scrollWidth <= clientWidth) {
           return false;
         }
-    
+
         if(flag) {
           nameContainer.setAttribute("title", nameContainer.textContent);
         } else {
           nameContainer.removeAttribute("title");
         }
     }
-    
+
     return (
         <div css={modalRowStyle(context)}>
             <div css={userStyle(context)} className="userinfo"

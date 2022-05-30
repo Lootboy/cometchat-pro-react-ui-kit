@@ -14,7 +14,6 @@ import { UserDetailManager } from "./controller";
 import { CometChatContext } from "../../../util/CometChatContext";
 import * as enums from "../../../util/enums.js";
 
-import Translator from "../../../resources/localization/translator";
 import { theme } from "../../../resources/theme";
 
 import {
@@ -41,6 +40,7 @@ import navigateIcon from "./resources/back.svg";
 import BlockUserButton from '~/views/RadarView/components/BlockUserButton';
 import ShowUserButton from '~/views/RadarView/components/ShowUserButton';
 import { FormattedPastDate } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
+import I18n from 'i18n-js';
 
 class CometChatUserDetails extends React.Component {
 	static contextType = CometChatContext;
@@ -125,9 +125,9 @@ class CometChatUserDetails extends React.Component {
 
 					let status = "";
 					if (user.status === CometChat.USER_STATUS.OFFLINE) {
-						status = Translator.translate("OFFLINE", this.props.lang);
+						status = I18n.t('cmtcht_chats_status_offline');
 					} else if (user.status === CometChat.USER_STATUS.ONLINE) {
-						status = Translator.translate("ONLINE", this.props.lang);
+						status = I18n.t('cmtcht_chats_status_online');
 					}
 					this.setState({ status: status });
 				}
@@ -145,9 +145,9 @@ class CometChatUserDetails extends React.Component {
       // status is set here as number to be later converted to correct date format with FormattedPastDate
 			status = this.context.item.lastActiveAt;
 		} else if (this.context.item.status === CometChat.USER_STATUS.OFFLINE) {
-			status = Translator.translate("OFFLINE", this.props.lang);
+			status = I18n.t('cmtcht_chats_status_offline');
 		} else if (this.context.item.status === CometChat.USER_STATUS.ONLINE) {
-			status = Translator.translate("ONLINE", this.props.lang);
+			status = I18n.t('cmtcht_chats_status_online');
 		}
 
 		this.setState({ status: status });
@@ -274,7 +274,7 @@ class CometChatUserDetails extends React.Component {
 			<div css={sectionStyle()} className="detailpane__section">
 				<div css={privacySectionStyle(this.context)} className="section section__privacy">
 					<h6 css={sectionHeaderStyle(this.context)} className="section__header">
-						{Translator.translate("OPTIONS", this.context.language)}
+            {I18n.t('cmtcht_common_options')}
 					</h6>
           { this.state.enableBlockUser && blockUserView }
           { this.state.enableViewProfile && viewProfile }
@@ -298,7 +298,7 @@ class CometChatUserDetails extends React.Component {
 				<div css={headerStyle(this.context)} className="detailpane__header">
 					<div css={headerCloseStyle(navigateIcon, this.context)} className="header__close" onClick={this.closeDetailView}></div>
 					<h4 css={headerTitleStyle()} className="header__title">
-						{Translator.translate("DETAILS", this.context.language)}
+            {I18n.t('cmtcht_common_details')}
 					</h4>
 				</div>
 				<div css={sectionStyle()} className="detailpane__section">

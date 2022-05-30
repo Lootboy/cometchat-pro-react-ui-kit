@@ -8,10 +8,10 @@ import { CometChat } from "@cometchat-pro/chat";
 import { GroupDetailManager } from "./controller";
 
 import { CometChatConfirmDialog, CometChatToastNotification } from "../../Shared";
-import { 
-	CometChatViewGroupMemberList, 
-	CometChatAddGroupMemberList, 
-	CometChatBanGroupMemberList, 
+import {
+	CometChatViewGroupMemberList,
+	CometChatAddGroupMemberList,
+	CometChatBanGroupMemberList,
 	CometChatTransferOwnershipMemberList
 } from "../../Groups";
 
@@ -37,6 +37,7 @@ import {
 } from "./style";
 
 import navigateIcon from "./resources/back.svg";
+import I18n from 'i18n-js';
 
 class CometChatGroupDetails extends React.Component {
 	item;
@@ -440,7 +441,7 @@ class CometChatGroupDetails extends React.Component {
 				if (response) {
 					this.context.setLeftGroupId(guid);
 					this.props.actionGenerated(enums.ACTIONS["TOGGLE_SIDEBAR"]);
-					
+
 				} else {
 					this.toastRef.setError("SOMETHING_WRONG");
 				}
@@ -540,7 +541,7 @@ class CometChatGroupDetails extends React.Component {
 
 	addParticipants = (members, triggerUpdate = true) => {
 		this.context.setGroupMembers(members);
-		
+
 		if (triggerUpdate) {
 			const newItem = { ...this.context.item, membersCount: this.context.groupMembers.length };
 			this.context.setItem(newItem);
@@ -562,7 +563,7 @@ class CometChatGroupDetails extends React.Component {
 		this.context.updateGroupMembers(filteredMembers);
 
 		if (triggerUpdate) {
-			
+
 			const newItem = { ...this.context.item, membersCount: filteredMembers.length };
 			this.context.setItem(newItem);
 
@@ -609,7 +610,7 @@ class CometChatGroupDetails extends React.Component {
 		let viewMembersBtn = (
 			<div css={contentItemStyle()} className="content__item">
 				<div css={itemLinkStyle(this.context, 0)} className="item__link" onClick={() => this.clickHandler("viewmember", true)}>
-					{Translator.translate("VIEW_MEMBERS", this.context.language)}
+					{I18n.t('cmtcht_groups_view_members')}
 				</div>
 			</div>
 		);
@@ -621,7 +622,7 @@ class CometChatGroupDetails extends React.Component {
 			addMembersBtn = (
 				<div css={contentItemStyle()} className="content__item">
 					<div css={itemLinkStyle(this.context, 0)} className="item__link" onClick={() => this.clickHandler("addmember", true)}>
-						{Translator.translate("ADD_MEMBERS", this.context.language)}
+						{I18n.t('cmtcht_groups_add')}
 					</div>
 				</div>
 			);
@@ -629,7 +630,7 @@ class CometChatGroupDetails extends React.Component {
 			deleteGroupBtn = (
 				<div css={contentItemStyle()} className="content__item">
 					<span css={itemLinkStyle(this.context, 1)} className="item__link" onClick={this.deleteGroup}>
-						{Translator.translate("DELETE_AND_EXIT", this.context.language)}
+						{I18n.t('cmtcht_groups_delete')}
 					</span>
 				</div>
 			);
@@ -639,7 +640,7 @@ class CometChatGroupDetails extends React.Component {
 			bannedMembersBtn = (
 				<div css={contentItemStyle()} className="content__item">
 					<div css={itemLinkStyle(this.context, 0)} className="item__link" onClick={() => this.clickHandler("banmember", true)}>
-						{Translator.translate("BANNED_MEMBERS", this.context.language)}
+						{I18n.t('cmtcht_groups_bannedmembers')}
 					</div>
 				</div>
 			);
@@ -648,7 +649,7 @@ class CometChatGroupDetails extends React.Component {
 		let leaveGroupBtn = (
 			<div css={contentItemStyle()} className="content__item">
 				<span css={itemLinkStyle(this.context, 0)} className="item__link" onClick={this.leaveGroup}>
-					{Translator.translate("LEAVE_GROUP", this.context.language)}
+					{I18n.t('cmtcht_groups_leave')}
 				</span>
 			</div>
 		);
@@ -753,14 +754,14 @@ class CometChatGroupDetails extends React.Component {
 		let showDeleteConfirmDialog = null;
 		if (this.state.showDeleteConfirmDialog) {
 			showDeleteConfirmDialog = (
-				<CometChatConfirmDialog {...this.props} onClick={this.onDeleteConfirm} message={Translator.translate("DELETE_CONFIRM", this.context.language)} confirmButtonText={Translator.translate("DELETE", this.context.language)} cancelButtonText={Translator.translate("CANCEL", this.context.language)} />
+				<CometChatConfirmDialog {...this.props} onClick={this.onDeleteConfirm} message={Translator.translate("DELETE_CONFIRM", this.context.language)} confirmButtonText={Translator.translate("DELETE", this.context.language)} cancelButtonText={I18n.t('cmtcht_common_cancel')} />
 			);
 		}
 
 		let showLeaveGroupConfirmDialog = null;
 		if (this.state.showLeaveGroupConfirmDialog) {
 			showLeaveGroupConfirmDialog = (
-				<CometChatConfirmDialog {...this.props} onClick={this.onLeaveConfirm} message={Translator.translate("LEAVE_CONFIRM", this.context.language)} confirmButtonText={Translator.translate("LEAVE", this.context.language)} cancelButtonText={Translator.translate("CANCEL", this.context.language)} />
+				<CometChatConfirmDialog {...this.props} onClick={this.onLeaveConfirm} message={Translator.translate("LEAVE_CONFIRM", this.context.language)} confirmButtonText={Translator.translate("LEAVE", this.context.language)} cancelButtonText={I18n.t('cmtcht_common_cancel')} />
 			);
 		}
 
@@ -772,7 +773,7 @@ class CometChatGroupDetails extends React.Component {
 					onClick={this.onTransferConfirm}
 					message={Translator.translate("TRANSFER_CONFIRM", this.context.language)}
 					confirmButtonText={Translator.translate("TRANSFER", this.context.language)}
-					cancelButtonText={Translator.translate("CANCEL", this.context.language)}
+					cancelButtonText={I18n.t('cmtcht_common_cancel')}
 				/>
 			);
 		}
@@ -787,7 +788,7 @@ class CometChatGroupDetails extends React.Component {
 				<div css={headerStyle(this.context)} className="detailpane__header">
 					<div css={headerCloseStyle(navigateIcon, this.context)} className="header__close" onClick={this.closeGroupDetail}></div>
 					<h4 css={headerTitleStyle()} className="header__title">
-						{Translator.translate("DETAILS", this.context.language)}
+            {I18n.t('cmtcht_common_details')}
 					</h4>
 				</div>
 				<div css={detailPaneStyle()} className="detailpane__section">

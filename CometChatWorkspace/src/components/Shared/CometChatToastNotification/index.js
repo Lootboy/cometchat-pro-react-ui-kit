@@ -22,6 +22,7 @@ import successIcon from "./resources/checkmark-filled.svg";
 import errorIcon from "./resources/warning-filled.svg";
 import infoIcon from "./resources/info-filled.svg";
 import warningIcon from "./resources/warning-filled.svg";
+import I18n from 'i18n-js';
 
 export class CometChatToastNotification extends React.Component {
 
@@ -38,7 +39,7 @@ export class CometChatToastNotification extends React.Component {
         super(props);
 
         this._isMounted = false;
-        this.state = { 
+        this.state = {
             type: "",
             message: ""
         };
@@ -64,7 +65,7 @@ export class CometChatToastNotification extends React.Component {
     }
 
     setError = (message) => {
-        
+
         if (this._isMounted) {
 
             this.setState({ type: "ERROR", message: message, icon: errorIcon });
@@ -93,7 +94,7 @@ export class CometChatToastNotification extends React.Component {
     setAutoDismiss = () => {
 
         this.clearAutoDismiss();
-        
+
         if (this.props.autoDelete) {
             this.interval = setTimeout(() => this.deleteToast(), this.props.dismissTime);
         }
@@ -118,7 +119,7 @@ export class CometChatToastNotification extends React.Component {
         let toastIcon = (this.state.icon.trim().length) ? (
 
             <div css={notificationIconStyle()} className={iconClassName}>
-                <i css={iconStyle(this.state.icon, this.props.theme)} title={Translator.translate("CLOSE", this.props.lang)}></i>
+                <i css={iconStyle(this.state.icon, this.props.theme)} title={I18n.t('cmtcht_common_close')}></i>
             </div>
         ) : null;
 
@@ -130,7 +131,7 @@ export class CometChatToastNotification extends React.Component {
                         <p css={notificationMessageStyle()}>{Translator.translate(this.state.message, this.props.lang)}</p>
                     </div>
                     <button css={notificationCloseButtonStyle()} type="button" onClick={this.deleteToast} className="toast__close">
-                        <i css={iconStyle(closeIcon, this.props.theme)} title={Translator.translate("CLOSE", this.props.lang)}></i>
+                        <i css={iconStyle(closeIcon, this.props.theme)} title={I18n.t('cmtcht_common_close')}></i>
                     </button>
                 </div>
             </div>

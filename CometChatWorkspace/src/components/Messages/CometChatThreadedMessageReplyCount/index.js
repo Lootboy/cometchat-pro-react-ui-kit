@@ -11,6 +11,7 @@ import {theme} from "../../../resources/theme";
 import Translator from "../../../resources/localization/translator";
 
 import {replyCountStyle} from "./style";
+import I18n from 'i18n-js';
 
 const CometChatThreadedMessageReplyCount = props => {
 
@@ -38,7 +39,7 @@ const CometChatThreadedMessageReplyCount = props => {
 	}
 
 	const replyCount = props.message.replyCount;
-	const replyText = replyCount === 1 ? `${replyCount} ${Translator.translate("REPLY", context.language)}` : `${replyCount} ${Translator.translate("REPLIES", context.language)}`;
+	const replyText = replyCount === 1 ? `${replyCount} ${I18n.t('cmtcht_chats_reply')}` : `${replyCount} ${I18n.t('cmtcht_chats_replies')}`;
 
 	let replies = (
 		<span css={replyCountStyle(context)} className="replycount" onClick={viewThread}>

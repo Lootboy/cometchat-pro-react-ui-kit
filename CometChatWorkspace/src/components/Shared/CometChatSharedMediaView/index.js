@@ -26,6 +26,7 @@ import {
 } from "./style";
 
 import fileIcon from "./resources/file-upload.svg";
+import I18n from 'i18n-js';
 
 class CometChatSharedMediaView extends React.Component {
 
@@ -88,7 +89,7 @@ class CometChatSharedMediaView extends React.Component {
     }
 
     messageDeleted = (deletedMessage) => {
-  
+
         const messageType = deletedMessage.data.type;
         if (this.context.type === CometChat.ACTION_TYPE.TYPE_GROUP
         && deletedMessage.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP
@@ -100,7 +101,7 @@ class CometChatSharedMediaView extends React.Component {
             this.setState({ messageList: filteredMessages, scrollToBottom: false });
         }
     }
-    
+
     //message is received or composed & sent
     messageReceived = (message) => {
 
@@ -117,9 +118,9 @@ class CometChatSharedMediaView extends React.Component {
     }
 
     getMessages = (scrollToBottom = false) => {
-        
+
         this.SharedMediaManager.fetchPreviousMessages().then(messages => {
-    
+
             const messageList = [...messages, ...this.state.messageList];
             if (this._isMounted) {
 
@@ -127,8 +128,8 @@ class CometChatSharedMediaView extends React.Component {
                 if(scrollToBottom) {
                     this.scrollToBottom();
                 }
-            } 
-    
+            }
+
         }).catch(error => {
 
             const errorCode = (error && error.hasOwnProperty("code")) ? error.code : "ERROR";
@@ -137,7 +138,7 @@ class CometChatSharedMediaView extends React.Component {
     }
 
     scrollToBottom = () => {
-      
+
         if (this.messageContainer) {
             this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
         }
@@ -163,7 +164,7 @@ class CometChatSharedMediaView extends React.Component {
 
                 return (
                     <div id={message.id} key={key} css={itemStyle(this.state, this.props, fileIcon, this.context)} className="item item__image">
-                        <img src={message.data.url} alt={Translator.translate("SHARED_MEDIA", this.props.lang)} />
+                        <img src={message.data.url} alt={I18n.t('cmtcht_media')} />
                     </div>
                 );
 
@@ -179,8 +180,8 @@ class CometChatSharedMediaView extends React.Component {
 
                 return (
                     <div id={message.id} key={key} css={itemStyle(this.state, this.props, fileIcon, this.context)} className="item item__file">
-                        <a href={message.data.attachments[0].url} 
-                        target="_blank" 
+                        <a href={message.data.attachments[0].url}
+                        target="_blank"
                         rel="noopener noreferrer">
                             <i></i>
                            <span>{message.data.attachments[0].name}</span>
@@ -197,14 +198,14 @@ class CometChatSharedMediaView extends React.Component {
 
         return (
             <div css={sectionStyle(this.props)} className="section section__sharedmedia">
-                <h6 css={sectionHeaderStyle(this.props)} className="section__header">{Translator.translate("SHARED_MEDIA", this.props.lang)}</h6>
+                <h6 css={sectionHeaderStyle(this.props)} className="section__header">{I18n.t('cmtcht_media')}</h6>
                 <div css={sectionContentStyle(this.props)} data-id="sharedmedia" className="section__content">
                     <div css={mediaBtnStyle()} className="media__button">
-                        <span css={buttonStyle(this.state, "image")} onClick={() => this.mediaClickHandler("image")}>{Translator.translate("PHOTOS", this.props.lang)}</span>
-                        <span css={buttonStyle(this.state, "video")} onClick={() => this.mediaClickHandler("video")}>{Translator.translate("VIDEOS", this.props.lang)}</span>
-                        <span css={buttonStyle(this.state, "file")} onClick={() => this.mediaClickHandler("file")}>{Translator.translate("DOCS", this.props.lang)}</span>
+                        <span css={buttonStyle(this.state, "image")} onClick={() => this.mediaClickHandler("image")}>{I18n.t('cmtcht_media_photos')}</span>
+                        <span css={buttonStyle(this.state, "video")} onClick={() => this.mediaClickHandler("video")}>{I18n.t('cmtcht_media_videos')}</span>
+                        <span css={buttonStyle(this.state, "file")} onClick={() => this.mediaClickHandler("file")}>{I18n.t('cmtcht_media_docs')}</span>
                     </div>
-                    <div css={mediaItemStyle()} className="media_items" 
+                    <div css={mediaItemStyle()} className="media_items"
                     ref={el => this.messageContainer = el}
                     onScroll={this.handleScroll}>{(messageList.length) ? messageList : Translator.translate("NO_RECORDS_FOUND", this.props.lang)}
                     </div>

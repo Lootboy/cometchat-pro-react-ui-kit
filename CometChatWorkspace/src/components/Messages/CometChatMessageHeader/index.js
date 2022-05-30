@@ -16,10 +16,10 @@ import * as enums from "../../../util/enums.js";
 import { theme } from "../../../resources/theme";
 import Translator from "../../../resources/localization/translator";
 
-import { 
-  chatHeaderStyle, 
-  chatDetailStyle, 
-  chatSideBarBtnStyle, 
+import {
+  chatHeaderStyle,
+  chatDetailStyle,
+  chatSideBarBtnStyle,
   chatThumbnailStyle,
   chatUserStyle,
   chatNameStyle,
@@ -134,17 +134,17 @@ class CometChatMessageHeader extends React.Component {
 			// status is set here as number to be later converted to correct date format with FormattedPastDate
       status = this.context.item.lastActiveAt;
 		} else if (this.context.item.status === CometChat.USER_STATUS.OFFLINE) {
-			status = Translator.translate("OFFLINE", this.props.lang);
+			status = I18n.t('cmtcht_chats_status_offline');
 		} else if (this.context.item.status === CometChat.USER_STATUS.ONLINE) {
-			status = Translator.translate("ONLINE", this.props.lang);
+			status = I18n.t('cmtcht_chats_status_online');
 		}
 
 		this.setState({status: status, presence: presence});
 	};
 
 	setStatusForGroup = () => {
-		let membersText = Translator.translate("MEMBERS", this.props.lang);
-		const status = `${this.context.item.membersCount} ${membersText}`;
+	  const membersCount = this.context.item.membersCount;
+		const status = `${membersCount} ${I18n.t('cmtcht_groups_members')}`;
 		this.setState({status: status});
 	};
 
@@ -158,7 +158,7 @@ class CometChatMessageHeader extends React.Component {
 			case enums.USER_ONLINE:
 			case enums.USER_OFFLINE: {
 				if (this.context.type === CometChat.ACTION_TYPE.TYPE_USER && this.context.item.uid === item.uid) {
-					
+
 					//if user presence feature is disabled
 					if (this.state.enableUserPresence === false) {
 						return false;
@@ -166,9 +166,9 @@ class CometChatMessageHeader extends React.Component {
 
 					let status = "";
 					if (item.status === CometChat.USER_STATUS.OFFLINE) {
-						status = Translator.translate("OFFLINE", this.context.language);
+						status = I18n.t('cmtcht_chats_status_offline');
 					} else if (item.status === CometChat.USER_STATUS.ONLINE) {
-						status = Translator.translate("ONLINE", this.context.language);
+						status = I18n.t('cmtcht_chats_status_online');
 					}
 					this.setState({status: status, presence: item.status});
 				}
@@ -179,28 +179,28 @@ class CometChatMessageHeader extends React.Component {
 			case enums.GROUP_MEMBER_LEFT:
 				if (this.context.type === CometChat.ACTION_TYPE.TYPE_GROUP && this.context.item.guid === item.guid && this.loggedInUser?.uid !== groupUser?.uid) {
 					let membersCount = parseInt(item.membersCount);
-					const status = `${membersCount} ${Translator.translate("MEMBERS", this.context.language)}`;
+					const status = `${membersCount} ${I18n.t('cmtcht_groups_members')}`;
 					this.setState({status: status});
 				}
 				break;
 			case enums.GROUP_MEMBER_JOINED:
 				if (this.context.type === CometChat.ACTION_TYPE.TYPE_GROUP && this.context.item.guid === item.guid) {
 					let membersCount = parseInt(item.membersCount);
-					const status = `${membersCount} ${Translator.translate("MEMBERS", this.context.language)}`;
+					const status = `${membersCount} ${I18n.t('cmtcht_groups_members')}`;
 					this.setState({status: status});
 				}
 				break;
 			case enums.GROUP_MEMBER_ADDED:
 				if (this.context.type === CometChat.ACTION_TYPE.TYPE_GROUP && this.context.item.guid === item.guid) {
 					let membersCount = parseInt(item.membersCount);
-					const status = `${membersCount} ${Translator.translate("MEMBERS", this.context.language)}`;
+					const status = `${membersCount} ${I18n.t('cmtcht_groups_members')}`;
 					this.setState({status: status});
 				}
 				break;
 			case enums.TYPING_STARTED:
 				this.onTypingStarted(item);
 				break;
-			case enums.TYPING_ENDED: 
+			case enums.TYPING_ENDED:
 				this.onTypingEnded(item);
 				break;
 			default:
@@ -211,7 +211,7 @@ class CometChatMessageHeader extends React.Component {
 	onTypingStarted = item => {
 
 		const showTyping = typingText => {
-			
+
 			/**
 			 * if metadata is available, show live reactions else show typing
 			 */
@@ -221,12 +221,12 @@ class CometChatMessageHeader extends React.Component {
 
 				if (this.state.enableTypingIndicator === true) {
 					this.setState({typing: typingText});
-				} 
+				}
 			//}
 		};
 
 		if (this.context.type === CometChat.ACTION_TYPE.TYPE_GROUP && this.context.type === item.receiverType && this.context.item.guid === item.receiverId) {
-			const typingText = `${item.sender.name} ${Translator.translate("IS_TYPING", this.context.language)}`;
+			const typingText = `${item.sender.name} ${I18n.t('cmtcht_chats_status_group_typing')}`;
 			showTyping(typingText);
 		} else if (this.context.type === CometChat.ACTION_TYPE.TYPE_USER && this.context.type === item.receiverType && this.context.item.uid === item.sender.uid) {
 			const typingText = `${Translator.translate("TYPING", this.context.language)}`;
@@ -246,19 +246,19 @@ class CometChatMessageHeader extends React.Component {
 
 				if (this.state.enableTypingIndicator === true) {
 					this.setState({typing: null});
-				} 
+				}
 			//}
 		}
 
 		if (this.context.type === CometChat.ACTION_TYPE.TYPE_GROUP && this.context.type === item.receiverType && this.context.item.guid === item.receiverId) {
-			
+
 			this.setStatusForGroup();
 			endTyping();
 
 		} else if (this.context.type === CometChat.ACTION_TYPE.TYPE_USER && this.context.type === item.receiverType && this.context.item.uid === item.sender.uid) {
 
 			if (this.state.presence === CometChat.USER_STATUS.ONLINE) {
-				this.setState({status: Translator.translate("ONLINE", this.context.language), presence: CometChat.USER_STATUS.ONLINE});
+				this.setState({status: I18n.t('cmtcht_chats_status_online'), presence: CometChat.USER_STATUS.ONLINE});
 			} else {
 				this.setStatusForUser();
 			}

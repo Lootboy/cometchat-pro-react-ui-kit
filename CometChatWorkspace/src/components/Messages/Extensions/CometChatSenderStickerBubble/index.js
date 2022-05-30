@@ -20,6 +20,7 @@ import {
     messageInfoWrapperStyle,
     messageReactionsWrapperStyle,
 } from "./style";
+import I18n from 'i18n-js';
 
 class CometChatSenderStickerBubble extends React.Component {
 	static contextType = CometChatContext;
@@ -37,7 +38,7 @@ class CometChatSenderStickerBubble extends React.Component {
 		const currentMessageStr = JSON.stringify(this.props.message);
 		const nextMessageStr = JSON.stringify(nextProps.message);
 
-		if (currentMessageStr !== nextMessageStr 
+		if (currentMessageStr !== nextMessageStr
 		|| this.state.isHovering !== nextState.isHovering) {
 			return true;
 		}
@@ -61,7 +62,7 @@ class CometChatSenderStickerBubble extends React.Component {
 			stickerData = this.props.message.data.customData;
 
 			if (stickerData.hasOwnProperty("sticker_url")) {
-				const stickerName = stickerData.hasOwnProperty("sticker_name") ? stickerData.sticker_name : Translator.translate("STICKER", this.context.language);
+				const stickerName = stickerData.hasOwnProperty("sticker_name") ? stickerData.sticker_name : I18n.t('cmtcht_chats_message_sticker');
 				stickerImg = <img src={stickerData.sticker_url} alt={stickerName} />;
 			}
 		}

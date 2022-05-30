@@ -25,6 +25,7 @@ import {
     messageInfoWrapperStyle,
     messageReactionsWrapperStyle,
 } from "./style";
+import I18n from 'i18n-js';
 
 class CometChatSenderPollMessageBubble extends React.Component {
 	pollId;
@@ -43,7 +44,7 @@ class CometChatSenderPollMessageBubble extends React.Component {
 		const currentMessageStr = JSON.stringify(this.props.message);
 		const nextMessageStr = JSON.stringify(nextProps.message);
 
-		if (currentMessageStr !== nextMessageStr 
+		if (currentMessageStr !== nextMessageStr
         || this.state.isHovering !== nextState.isHovering) {
 			return true;
 		}
@@ -73,9 +74,9 @@ class CometChatSenderPollMessageBubble extends React.Component {
 		let totalText = Translator.translate("NO_VOTE", this.context.language);
 
 		if (total === 1) {
-			totalText = `${total} ${Translator.translate("VOTE", this.context.language)}`;
+			totalText = `${total} ${I18n.t('cmtcht_chats_poll_vote')}`;
 		} else if (total > 1) {
-			totalText = `${total} ${Translator.translate("VOTES", this.context.language)}`;
+			totalText = `${total} ${I18n.t('cmtcht_chats_poll_votes')}`;
 		}
 
 		for (const option in pollExtensionData.results.options) {

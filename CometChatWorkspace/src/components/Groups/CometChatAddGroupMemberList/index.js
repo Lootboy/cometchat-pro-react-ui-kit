@@ -34,6 +34,7 @@ import {
 import addingIcon from "./resources/adding.svg";
 import searchIcon from "./resources/search.svg";
 import clearIcon from "./resources/close.svg";
+import I18n from 'i18n-js';
 
 class CometChatAddGroupMemberList extends React.Component {
 
@@ -47,7 +48,7 @@ class CometChatAddGroupMemberList extends React.Component {
             membersToAdd: [],
             filteredlist: [],
             addingMembers: false,
-            decoratorMessage: Translator.translate("LOADING", context.language),
+            decoratorMessage: I18n.t('cmtcht_common_loading'),
             errorMessage: ""
         }
     }
@@ -69,19 +70,19 @@ class CometChatAddGroupMemberList extends React.Component {
     }
 
     userUpdated = (user) => {
-        
+
         let userlist = [...this.state.userlist];
-  
+
         //search for user
         let userKey = userlist.findIndex((u, k) => u.uid === user.uid);
-      
+
         //if found in the list, update user object
         if(userKey > -1) {
 
             let userObj = userlist[userKey];
             let newUserObj = Object.assign({}, userObj, user);
             userlist.splice(userKey, 1, newUserObj);
-    
+
             this.setState({ userlist: userlist });
         }
     }
@@ -91,27 +92,27 @@ class CometChatAddGroupMemberList extends React.Component {
         Math.round(e.currentTarget.scrollHeight - e.currentTarget.scrollTop) === Math.round(e.currentTarget.clientHeight);
       if (bottom) this.getUsers();
     }
-    
+
     searchUsers = (e) => {
-  
+
         if (this.timeout) {
             clearTimeout(this.timeout);
         }
 
         let val = e.target.value;
-        
+
         this.AddMembersManager = new AddMembersManager(this.context, val);
         this.AddMembersManager.initializeMembersRequest().then(() => {
 
             this.timeout = setTimeout(() => {
-                this.setState({ userlist: [], membersToAdd: [], membersToRemove: [], filteredlist: [], decoratorMessage: Translator.translate("LOADING", this.context.language) }, () => this.getUsers());
+                this.setState({ userlist: [], membersToAdd: [], membersToRemove: [], filteredlist: [], decoratorMessage: I18n.t('cmtcht_common_loading') }, () => this.getUsers());
             }, 500);
-							
+
         });
     }
-  
+
     getUsers = () => {
-  
+
         this.AddMembersManager.fetchNextUsers()
             .then(userList => {
                 const filteredUserList = userList.filter(user => {
@@ -124,12 +125,12 @@ class CometChatAddGroupMemberList extends React.Component {
                 });
 
                 if (filteredUserList.length === 0) {
-                    this.setState({ decoratorMessage: Translator.translate("NO_USERS_FOUND", this.context.language) });
+                    this.setState({ decoratorMessage: I18n.t('cmtcht_groups_nousers') });
                 }
 
                 this.setState({ userlist: [...this.state.userlist, ...userList], filteredlist: [...this.state.filteredlist, ...filteredUserList] });
             })
-            .catch(error => this.setState({ decoratorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) }));
+            .catch(error => this.setState({ decoratorMessage: I18n.t('cmtcht_common_unknown') }));
     }
 
     membersUpdated = (user, userState) => {
@@ -152,7 +153,7 @@ class CometChatAddGroupMemberList extends React.Component {
     }
 
     updateMembers = () => {
-        
+
         const guid = this.context.item.guid;
         const membersList = [];
 
@@ -160,7 +161,7 @@ class CometChatAddGroupMemberList extends React.Component {
             //if a selected member is already part of the member list, don't add
             const IndexFound = this.context.groupMembers.findIndex(member => member.uid === newmember.uid);
             if(IndexFound === -1) {
-                
+
                 const newMember = new CometChat.GroupMember(newmember.uid, CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT);
                 membersList.push(newMember);
 
@@ -176,7 +177,7 @@ class CometChatAddGroupMemberList extends React.Component {
             CometChat.addMembersToGroup(guid, membersList, []).then(response => {
 
                 if (Object.keys(response).length) {
-                        
+
                     for (const member in response) {
 
                         if(response[member] === "success") {
@@ -193,16 +194,16 @@ class CometChatAddGroupMemberList extends React.Component {
                 this.props.close();
 
             }).catch(error => {
-                
-                this.setState({ addingMembers: false, errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) });
-                
+
+                this.setState({ addingMembers: false, errorMessage: I18n.t('cmtcht_common_unknown') });
+
             });
         }
     }
 
     render() {
 
-        const createText = this.state.addingMembers ? Translator.translate("ADDING", this.context.language) : Translator.translate("ADD", this.context.language);
+        const createText = this.state.addingMembers ? Translator.translate("ADDING", this.context.language) : I18n.t('cmtcht_common_add');
         let addGroupMemberBtn = (
             <div css={modalFootStyle(this.props, this.state, addingIcon, this.context)} className="modal__addmembers">
                 <button type="button" onClick={this.updateMembers}><span>{createText}</span></button>
@@ -233,7 +234,7 @@ class CometChatAddGroupMemberList extends React.Component {
 
             return (
                 <React.Fragment key={user.uid}>
-                    <CometChatAddGroupMemberListItem 
+                    <CometChatAddGroupMemberListItem
                     theme={this.props.theme}
                     firstLetter={firstLetter}
                     user={user}
@@ -246,7 +247,7 @@ class CometChatAddGroupMemberList extends React.Component {
             <React.Fragment>
                 <CometChatBackdrop show={true} clicked={this.props.close} />
                 <div css={modalWrapperStyle(this.context)} className="modal__addmembers">
-                    <span css={modalCloseStyle(clearIcon, this.context)} className="modal__close" onClick={this.props.close} title={Translator.translate("CLOSE", this.context.language)}></span>
+                    <span css={modalCloseStyle(clearIcon, this.context)} className="modal__close" onClick={this.props.close} title={I18n.t('cmtcht_common_close')}></span>
                     <div css={modalBodyStyle()} className="modal__body">
                         <div css={modalCaptionStyle(Translator.getDirection(this.context.language))} className="modal__title">{Translator.translate("USERS", this.context.language)}</div>
                         <div css={modalErrorStyle(this.context)} className="modal__error">{this.state.errorMessage}</div>
@@ -257,7 +258,7 @@ class CometChatAddGroupMemberList extends React.Component {
                             autoComplete="off"
                             css={searchInputStyle()}
                             className="search__input"
-                            placeholder={Translator.translate("SEARCH", this.context.language)}
+                            placeholder={I18n.t('cmtcht_common_search')}
                             onChange={this.searchUsers} />
                         </div>
                         {messageContainer}

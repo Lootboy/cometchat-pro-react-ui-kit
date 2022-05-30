@@ -33,6 +33,7 @@ import {
 } from "./style";
 
 import whiteboardIcon from "./resources/collaborative-whiteboard.svg";
+import I18n from 'i18n-js';
 
 class CometChatReceiverWhiteboardBubble extends React.Component {
 	static contextType = CometChatContext;
@@ -137,7 +138,7 @@ class CometChatReceiverWhiteboardBubble extends React.Component {
 
 								<ul css={messageBtnStyle(this.context)} className="whiteboard__button">
 									<li onClick={this.launchCollaborativeWhiteboard}>
-										<p>{Translator.translate("JOIN", this.context.language)}</p>
+										<p>{I18n.t('cmtcht_call_join')}</p>
 									</li>
 								</ul>
 							</div>

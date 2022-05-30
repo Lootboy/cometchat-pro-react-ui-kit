@@ -23,6 +23,7 @@ import {
 } from "./style";
 
 import srcIcon from "./resources/1px.png";
+import I18n from 'i18n-js';
 
 class CometChatSenderImageMessageBubble extends React.Component {
 	static contextType = CometChatContext;
@@ -36,7 +37,7 @@ class CometChatSenderImageMessageBubble extends React.Component {
 
 		this.state = {
 			imageUrl: srcIcon,
-			imageName: Translator.translate("LOADING", context.language),
+			imageName: I18n.t('cmtcht_common_loading'),
 			isHovering: false,
 		};
 	}
@@ -46,8 +47,8 @@ class CometChatSenderImageMessageBubble extends React.Component {
 		const currentMessageStr = JSON.stringify(this.props.message);
 		const nextMessageStr = JSON.stringify(nextProps.message);
 
-		if (currentMessageStr !== nextMessageStr 
-		|| this.state.imageUrl !== nextState.imageUrl 
+		if (currentMessageStr !== nextMessageStr
+		|| this.state.imageUrl !== nextState.imageUrl
 		|| this.state.isHovering !== nextState.isHovering) {
 
 			return true;
@@ -96,8 +97,8 @@ class CometChatSenderImageMessageBubble extends React.Component {
 		if (thumbnailGenerationData) {
 
 			let imageName = "";
-			if (this.props.message.data.attachments 
-			&& typeof this.props.message.data.attachments === "object" 
+			if (this.props.message.data.attachments
+			&& typeof this.props.message.data.attachments === "object"
 			&& this.props.message.data.attachments.length) {
 				imageName = this.props.message.data.attachments[0]?.name;
 			}
@@ -136,7 +137,7 @@ class CometChatSenderImageMessageBubble extends React.Component {
 
 		const metadataKey = enums.CONSTANTS["FILE_METADATA"];
 		const fileMetadata = getMessageFileMetadata(this.props.message, metadataKey);
-		
+
 		let img = new Image();
 		let imageName;
 		if (fileMetadata instanceof Blob) {
@@ -148,8 +149,8 @@ class CometChatSenderImageMessageBubble extends React.Component {
 			imageName = fileMetadata["name"];
 			reader.readAsDataURL(fileMetadata);
 
-		} else if (this.props.message.data.attachments 
-			&& typeof this.props.message.data.attachments === "object" 
+		} else if (this.props.message.data.attachments
+			&& typeof this.props.message.data.attachments === "object"
 			&& this.props.message.data.attachments.length) {
 
 			const fileUrl = this.props.message.data.attachments[0]?.url;
