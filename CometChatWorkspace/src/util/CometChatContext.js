@@ -9,10 +9,12 @@ import * as enums from "./enums.js";
 import Translator from "../resources/localization/translator";
 import { FeatureRestriction } from "./FeatureRestriction";
 import { theme } from "../resources/theme";
+import { languageSelector } from '~/redux/selectors';
+import { connect } from 'react-redux';
 
 export const CometChatContext = React.createContext({});
 
-export class CometChatContextProvider extends React.Component {
+class CometChatContextProvider extends React.Component {
 	loggedInUser;
 
 	constructor(props) {
@@ -398,7 +400,7 @@ export class CometChatContextProvider extends React.Component {
 	};
 
 	render() {
-		
+
 		return (
 			<CometChatContext.Provider value={this.state}>
 				<CometChatToastNotification ref={el => (this.toastRef = el)} lang={this.props.language} position={this.props.toastNotificationPos} />
@@ -433,3 +435,5 @@ CometChatContextProvider.propTypes = {
 	_component: PropTypes.string,
 	language: PropTypes.string,
 };
+
+export { CometChatContextProvider };

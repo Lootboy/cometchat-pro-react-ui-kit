@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import dateFormat from "dateformat";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
@@ -25,6 +24,7 @@ import {
     nameWrapperStyle,
     nameStyle
 } from "./style";
+import { FormattedTime } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
 
 const CometChatDeleteMessageBubble = (props) => {
 
@@ -39,7 +39,7 @@ const CometChatDeleteMessageBubble = (props) => {
 	}, [context]);
 
     let message = null;
-    const messageDate = (props.message.sentAt * 1000);
+    const messageDate = props.message.sentAt;
     if (props.message?.sender?.uid === loggedInUser?.uid) {
 
 			message = (
@@ -51,7 +51,8 @@ const CometChatDeleteMessageBubble = (props) => {
 					</div>
 					<div css={messageInfoWrapperStyle(props, loggedInUser)} className="message__info__wrapper">
 						<span css={messageTimeStampStyle(context)} className="message__timestamp">
-							{dateFormat(messageDate, "shortTime")}
+							{messageDate}
+              <FormattedTime timestamp={messageDate} />
 						</span>
 					</div>
 				</React.Fragment>
@@ -88,7 +89,7 @@ const CometChatDeleteMessageBubble = (props) => {
 						</div>
 						<div css={messageInfoWrapperStyle(props, loggedInUser)} className="message__info__wrapper">
 							<span css={messageTimeStampStyle(context)} className="message__timestamp">
-								{dateFormat(messageDate, "shortTime")}
+								{messageDate}
 							</span>
 						</div>
 					</div>

@@ -27,7 +27,6 @@ import {
 
 import { CometChatContext } from "../../../util/CometChatContext";
 import * as enums from "../../../util/enums.js";
-import { getMessageDate } from "../../../util/common";
 
 import { theme } from "../../../resources/theme";
 import Translator from "../../../resources/localization/translator";
@@ -40,6 +39,7 @@ import {
 	decoratorMessageStyle,
 	decoratorMessageTxtStyle
 } from "./style";
+import { FormattedPastDate } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
 
 class CometChatMessageList extends React.PureComponent {
 	loggedInUser = null;
@@ -689,7 +689,9 @@ class CometChatMessageList extends React.PureComponent {
 			if (cDate !== messageSentDate) {
 				dateSeparator = (
 					<div css={messageDateContainerStyle()} className="message__date">
-						<span css={messageDateStyle(this.context)}>{getMessageDate(dateField, this.context.language)}</span>
+						<span css={messageDateStyle(this.context)}>
+              <FormattedPastDate timestamp={dateField} />
+						</span>
 					</div>
 				);
 			}
