@@ -32,6 +32,7 @@ import {
 } from "./style";
 
 import videoCallIcon from "./resources/incoming-video-call.svg";
+import I18n from 'i18n-js';
 
 class CometChatIncomingDirectCall extends React.PureComponent {
 	static contextType = CometChatContext;
@@ -228,8 +229,8 @@ class CometChatIncomingDirectCall extends React.PureComponent {
 
 			const callType = (
 				<React.Fragment>
-					<i css={callIconStyle(videoCallIcon, this.context)} title={Translator.translate("INCOMING_VIDEO_CALL", this.props.lang)}></i>
-					<span>{Translator.translate("INCOMING_VIDEO_CALL", this.props.lang)}</span>
+					<i css={callIconStyle(videoCallIcon, this.context)} title={I18n.t('cmtcht_call_incoming_video')}></i>
+					<span>{I18n.t('cmtcht_call_incoming_video')}</span>
 				</React.Fragment>
 			);
 
@@ -249,10 +250,10 @@ class CometChatIncomingDirectCall extends React.PureComponent {
 						</div>
 						<div css={headerButtonStyle()} className="callalert__buttons" ref={this.callButtonRef}>
 							<button type="button" css={ButtonStyle(this.props, 0)} className="button button__ignore" onClick={this.ignoreCall}>
-								{Translator.translate("IGNORE", this.props.lang)}
+								{I18n.t('cmtcht_call_ignore')}
 							</button>
 							<button type="button" css={ButtonStyle(this.props, 1)} className="button button__join" onClick={this.joinCall}>
-								{Translator.translate("JOIN", this.props.lang)}
+								{I18n.t('cmtcht_call_join')}
 							</button>
 						</div>
 					</div>

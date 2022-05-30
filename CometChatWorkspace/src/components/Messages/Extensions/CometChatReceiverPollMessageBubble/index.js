@@ -37,6 +37,7 @@ import {
 
 
 import checkImg from "./resources/checkmark.svg";
+import I18n from 'i18n-js';
 
 class CometChatReceiverPollMessageBubble extends React.Component {
 	pollId;
@@ -60,11 +61,11 @@ class CometChatReceiverPollMessageBubble extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-        
+
 		const currentMessageStr = JSON.stringify(this.props.message);
 		const nextMessageStr = JSON.stringify(nextProps.message);
 
-		if (currentMessageStr !== nextMessageStr 
+		if (currentMessageStr !== nextMessageStr
         || this.state.isHovering !== nextState.isHovering) {
 			return true;
 		}
@@ -142,9 +143,9 @@ class CometChatReceiverPollMessageBubble extends React.Component {
 		let totalText = Translator.translate("NO_VOTE", this.context.language);
 
 		if (total === 1) {
-			totalText = `${total} ${Translator.translate("VOTE", this.context.language)}`;
+			totalText = `${total} ${I18n.t('cmtcht_chats_poll_vote')}`;
 		} else if (total > 1) {
-			totalText = `${total} ${Translator.translate("VOTES", this.context.language)}`;
+			totalText = `${total} ${I18n.t('cmtcht_chats_poll_votes')}`;
 		}
 
 		for (const option in pollExtensionData.options) {

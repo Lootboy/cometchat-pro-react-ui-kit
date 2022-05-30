@@ -7,13 +7,14 @@ import { CometChatBackdrop } from "../";
 import Translator from "../../../resources/localization/translator";
 
 import {alertWrapperStyle, alertMessageStyle, alertButtonStyle} from "./style";
+import I18n from 'i18n-js';
 
 class CometChatConfirmDialog extends React.Component {
 
     render() {
 
-        const confirmButtonText = this.props?.confirmButtonText ? this.props.confirmButtonText : Translator.translate("YES", this.context.language);
-        const cancelButtonText = this.props?.cancelButtonText ? this.props.cancelButtonText : Translator.translate("NO", this.getContext().language);
+        const confirmButtonText = this.props?.confirmButtonText ? this.props.confirmButtonText : I18n.t('common_yes');
+        const cancelButtonText = this.props?.cancelButtonText ? this.props.cancelButtonText : I18n.t('common_no');
 
         return (
             <React.Fragment>

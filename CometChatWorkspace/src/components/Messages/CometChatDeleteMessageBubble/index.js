@@ -25,6 +25,7 @@ import {
     nameStyle
 } from "./style";
 import { FormattedTime } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
+import I18n from 'i18n-js';
 
 const CometChatDeleteMessageBubble = (props) => {
 
@@ -46,7 +47,7 @@ const CometChatDeleteMessageBubble = (props) => {
 				<React.Fragment>
 					<div css={messageTxtWrapperStyle(props, context, loggedInUser)} className="message__txt__wrapper">
 						<p css={messageTxtStyle(context)} className="message__txt">
-							{Translator.translate("YOU_DELETED_THIS_MESSAGE", context.language)}
+							{I18n.t('cmtcht_chats_youdeleted')}
 						</p>
 					</div>
 					<div css={messageInfoWrapperStyle(props, loggedInUser)} className="message__info__wrapper">
@@ -84,7 +85,7 @@ const CometChatDeleteMessageBubble = (props) => {
 						{name}
 						<div css={messageTxtWrapperStyle(props, context, loggedInUser)} className="message__txt__wrapper">
 							<p css={messageTxtStyle(context)} className="message__txt">
-								{Translator.translate("THIS_MESSAGE_DELETED", context.language)}
+								{I18n.t('cmtcht_chats_deleted')}
 							</p>
 						</div>
 						<div css={messageInfoWrapperStyle(props, loggedInUser)} className="message__info__wrapper">
@@ -99,7 +100,7 @@ const CometChatDeleteMessageBubble = (props) => {
 
     return (
         <div css={messageContainerStyle(props, loggedInUser)} className="message__deleted">
-            <div css={messageWrapperStyle(props, loggedInUser)} className="message__wrapper">{message}</div>                            
+            <div css={messageWrapperStyle(props, loggedInUser)} className="message__wrapper">{message}</div>
         </div>
     )
 }

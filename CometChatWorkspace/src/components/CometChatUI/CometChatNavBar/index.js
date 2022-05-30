@@ -28,11 +28,12 @@ import chatGreyIcon from "./resources/chats.svg";
 import contactGreyIcon from "./resources/users.svg";
 import groupGreyIcon from "./resources/groups.svg";
 import moreGreyIcon from "./resources/more.svg";
+import I18n from 'i18n-js';
 
 export class CometChatNavBar extends React.Component {
 	static contextType = CometChatContext;
 
-	tabListKeys = []; 
+	tabListKeys = [];
 	constructor(props) {
 		super(props);
 
@@ -68,7 +69,7 @@ export class CometChatNavBar extends React.Component {
 			const filteredTabs = [];
 			const promises = [this.enableChats(), this.enableUsers(), this.enableGroups(), this.enableSettings()];
 			Promise.allSettled(promises).then(results => {
-				
+
 				this.tabListKeys.forEach(eachTabKey => {
 					results.forEach(result => {
 						const tabKey = result.value[0];
@@ -152,8 +153,8 @@ export class CometChatNavBar extends React.Component {
 				case "SIDEBAR_CHATS":
 					return (
 						<div key={tab} css={itemStyle(this.props)} className="navbar__item" onClick={() => this.tabChanged("SIDEBAR_CHATS")}>
-							<div css={itemLinkStyle(chatGreyIcon, chatsTabActive, this.context)} className="item__link item__link__chats" title={Translator.translate("CHATS", this.context.language)}></div>
-							<div css={itemLinkTextStyle(chatsTabActive, this.context)} className="item__label">{Translator.translate("CHATS", this.context.language)}</div>
+							<div css={itemLinkStyle(chatGreyIcon, chatsTabActive, this.context)} className="item__link item__link__chats" title={I18n.t('cmtcht_common_chats')}></div>
+							<div css={itemLinkTextStyle(chatsTabActive, this.context)} className="item__label">{I18n.t('cmtcht_common_chats')}</div>
 						</div>
 					);
 				case "SIDEBAR_USERS":
@@ -166,15 +167,15 @@ export class CometChatNavBar extends React.Component {
 				case "SIDEBAR_GROUPS":
 					return (
 						<div key={tab} css={itemStyle(this.props)} className="navbar__item" onClick={() => this.tabChanged("SIDEBAR_GROUPS")}>
-							<div css={itemLinkStyle(groupGreyIcon, groupsTabActive, this.context)} className="item__link item__link__groups" title={Translator.translate("GROUPS", this.context.language)}></div>
-							<div css={itemLinkTextStyle(groupsTabActive, this.context)} className="item__label">{Translator.translate("GROUPS", this.context.language)}</div>
+							<div css={itemLinkStyle(groupGreyIcon, groupsTabActive, this.context)} className="item__link item__link__groups" title={I18n.t('cmtcht_section_groups')}></div>
+							<div css={itemLinkTextStyle(groupsTabActive, this.context)} className="item__label">{I18n.t('cmtcht_section_groups')}</div>
 						</div>
 					);
 				case "SIDEBAR_MOREINFO":
 					return (
 						<div key={tab} css={itemStyle(this.props)} className="navbar__item" onClick={() => this.tabChanged("SIDEBAR_MOREINFO")}>
-							<div css={itemLinkStyle(moreGreyIcon, moreTabActive, this.context)} className="item__link item__link__info" title={Translator.translate("MORE", this.context.language)}></div>
-							<div css={itemLinkTextStyle(moreTabActive, this.context)} className="item__label">{Translator.translate("MORE", this.context.language)}</div>
+							<div css={itemLinkStyle(moreGreyIcon, moreTabActive, this.context)} className="item__link item__link__info" title={I18n.t('cmtcht_common_more')}></div>
+							<div css={itemLinkTextStyle(moreTabActive, this.context)} className="item__label">{I18n.t('cmtcht_common_more')}</div>
 						</div>
 					);
 				default:

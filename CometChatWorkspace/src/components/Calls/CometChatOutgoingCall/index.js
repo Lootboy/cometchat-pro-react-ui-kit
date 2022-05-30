@@ -29,9 +29,10 @@ import {
 	iconWrapperStyle,
 	iconStyle,
 	errorContainerStyle
-} from "./style"; 
+} from "./style";
 
 import callIcon from "./resources/end-call.svg";
+import I18n from 'i18n-js';
 
 class CometChatOutgoingCall extends React.PureComponent {
 
@@ -102,7 +103,7 @@ class CometChatOutgoingCall extends React.PureComponent {
 		if (call.hasOwnProperty("status") && call.status === CometChat.CALL_STATUS.BUSY) {
 
 			//show busy message.
-			const errorMessage = `${call.sender.name} ${Translator.translate("ON_ANOTHER_CALL", this.props.lang)}`;
+			const errorMessage = `${call.sender.name} ${I18n.t('cmtcht_call_incall')}`;
 			this.setState({ errorScreen: true, errorMessage: errorMessage });
 			this.clearCallInProgress();
 
@@ -188,7 +189,7 @@ class CometChatOutgoingCall extends React.PureComponent {
 					<div css={callScreenWrapperStyle(this.props, keyframes)} className="callscreen__wrapper" ref={el => { this.callScreenFrame = el; }}>
 						<div css={callScreenContainerStyle()} className="callscreen__container">
 							<div css={headerStyle()} className="callscreen__header">
-								<span css={headerDurationStyle()} className="header__calling">{Translator.translate("CALLING", this.props.lang)}</span>
+								<span css={headerDurationStyle()} className="header__calling">{I18n.t('cmtcht_call_calling')}</span>
 								<h6 css={headerNameStyle()} className="header__name">{this.state.callInProgress.receiver.name}</h6>
 							</div>
 							<div css={thumbnailWrapperStyle()} className="callscreen__thumbnail__wrapper">

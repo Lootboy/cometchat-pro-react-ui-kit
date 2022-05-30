@@ -23,6 +23,7 @@ import editIcon from "./resources/edit.svg";
 import reactIcon from "./resources/reactions.svg";
 import translateIcon from "./resources/message-translate.svg";
 import sendMessageInPrivateIcon from "./resources/send-message-in-private.svg";
+import I18n from 'i18n-js';
 
 
 class CometChatMessageActions extends React.PureComponent {
@@ -200,7 +201,7 @@ class CometChatMessageActions extends React.PureComponent {
 	};
 
 	sendMessageInPrivate = () => {
-		
+
 		const item = this.props.message?.sender;
 		const type = CometChat.ACTION_TYPE.TYPE_USER;
 
@@ -287,7 +288,7 @@ class CometChatMessageActions extends React.PureComponent {
 						onMouseLeave={event => this.toggleTooltip(event, false)}
 						css={groupButtonStyle(deleteIcon, this.context, 1)}
 						className="group__button button__delete"
-						data-title={Translator.translate("DELETE_MESSAGE", this.context.language)}
+						data-title={I18n.t('cmtcht_chats_delete')}
 						onClick={this.deleteMessage}></button>
 				</li>
 			);
@@ -303,7 +304,7 @@ class CometChatMessageActions extends React.PureComponent {
 						onMouseLeave={event => this.toggleTooltip(event, false)}
 						css={groupButtonStyle(editIcon, this.context)}
 						className="group__button button__edit"
-						data-title={Translator.translate("EDIT_MESSAGE", this.context.language)}
+						data-title={I18n.t('cmtcht_chats_edit')}
 						onClick={this.editMessage}></button>
 				</li>
 			);
@@ -338,7 +339,7 @@ class CometChatMessageActions extends React.PureComponent {
 						onMouseLeave={event => this.toggleTooltip(event, false)}
 						css={groupButtonStyle(sendMessageInPrivateIcon, this.context)}
 						className="group__button button__translate"
-						data-title={Translator.translate("SEND_MESSAGE_IN_PRIVATE", this.context.language)}
+						data-title={I18n.t('cmtcht_chats_private_send')}
 						onClick={this.sendMessageInPrivate}></button>
 				</li>
 			);

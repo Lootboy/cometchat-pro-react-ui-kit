@@ -30,6 +30,7 @@ import {
 } from "./style";
 
 import srcIcon from "./resources/1px.png";
+import I18n from 'i18n-js';
 
 class CometChatReceiverImageMessageBubble extends React.Component {
 	static contextType = CometChatContext;
@@ -42,7 +43,7 @@ class CometChatReceiverImageMessageBubble extends React.Component {
 
 		this.state = {
 			imageUrl: srcIcon,
-			imageName: Translator.translate("LOADING", this.context.language),
+			imageName: I18n.t('cmtcht_common_loading'),
 			isHovering: false,
 		};
 	}
@@ -52,8 +53,8 @@ class CometChatReceiverImageMessageBubble extends React.Component {
 		const currentMessageStr = JSON.stringify(this.props.message);
 		const nextMessageStr = JSON.stringify(nextProps.message);
 
-		if (currentMessageStr !== nextMessageStr 
-		|| this.state.imageUrl !== nextState.imageUrl 
+		if (currentMessageStr !== nextMessageStr
+		|| this.state.imageUrl !== nextState.imageUrl
 		|| this.state.isHovering !== nextState.isHovering) {
 			return true;
 		}
@@ -97,12 +98,12 @@ class CometChatReceiverImageMessageBubble extends React.Component {
 	setImage = () => {
 
 		const thumbnailGenerationData = checkMessageForExtensionsData(this.props.message, "thumbnail-generation");
-		
+
 		if (thumbnailGenerationData) {
 
 			let imageName = "";
-			if (this.props.message.data.attachments 
-			&& typeof this.props.message.data.attachments === "object" 
+			if (this.props.message.data.attachments
+			&& typeof this.props.message.data.attachments === "object"
 			&& this.props.message.data.attachments.length) {
 
 				imageName = this.props.message.data.attachments[0]?.name;
@@ -139,8 +140,8 @@ class CometChatReceiverImageMessageBubble extends React.Component {
 
 	setMessageImageUrl = () => {
 
-		if (this.props.message.data.attachments 
-		&& typeof this.props.message.data.attachments === "object" 
+		if (this.props.message.data.attachments
+		&& typeof this.props.message.data.attachments === "object"
 		&& this.props.message.data.attachments.length) {
 
 			let img = new Image();
@@ -152,7 +153,7 @@ class CometChatReceiverImageMessageBubble extends React.Component {
 				}
 			};
 		}
-		
+
 	};
 
 	downloadImage(imgUrl) {

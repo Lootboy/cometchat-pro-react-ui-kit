@@ -9,7 +9,7 @@ import { CometChatBackdrop } from "../../../Shared";
 import { CometChatCreatePollOptions } from "../";
 
 import { CometChatContext } from "../../../../util/CometChatContext";
-import * as enums from "../../../../util/enums.js"; 
+import * as enums from "../../../../util/enums.js";
 
 import { theme } from "../../../../resources/theme";
 import Translator from "../../../../resources/localization/translator";
@@ -30,6 +30,7 @@ import {
 import creatingIcon from "./resources/creating.svg";
 import addIcon from "./resources/add-circle-filled.svg";
 import clearIcon from "./resources/close.svg";
+import I18n from 'i18n-js';
 
 class CometChatCreatePoll extends React.Component {
 
@@ -72,7 +73,7 @@ class CometChatCreatePoll extends React.Component {
     optionChangeHandler = (event, option) => {
 
         const options = [...this.state.options];
-        const optionKey = options.findIndex(opt => opt.id === option.id); 
+        const optionKey = options.findIndex(opt => opt.id === option.id);
         if (optionKey > -1) {
 
             const newOption = { ...option, value: event.target.value}
@@ -90,13 +91,13 @@ class CometChatCreatePoll extends React.Component {
 
         if (question.length === 0) {
 
-            this.setState({ errorMessage: Translator.translate("INVALID_POLL_QUESTION", this.context.language) });
+            this.setState({ errorMessage: I18n.t('cmtcht_chats_poll_error_question') });
             return false;
         }
 
         if (firstOption.length === 0 || secondOption.length === 0) {
 
-            this.setState({ errorMessage: Translator.translate("INVALID_POLL_OPTION", this.context.language) });
+            this.setState({ errorMessage: I18n.t('cmtcht_chats_poll_error_option') });
             return false;
         }
 
@@ -111,7 +112,7 @@ class CometChatCreatePoll extends React.Component {
         } else if (this.context.type === CometChat.RECEIVER_TYPE.GROUP) {
             receiverId = this.context.item.guid;
         }
-        
+
         this.setState({ creatingPoll: true, errorMessage: "" });
 
         CometChat.callExtension('polls', 'POST', 'v2/create', {
@@ -127,13 +128,13 @@ class CometChatCreatePoll extends React.Component {
                 this.props.actionGenerated(enums.ACTIONS["POLL_CREATED"]);
 
             } else {
-                this.setState({ errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) });
+                this.setState({ errorMessage: I18n.t('cmtcht_common_unknown') });
             }
 
         }).catch(error => {
 
             this.setState({ creatingPoll: false });
-            this.setState({ errorMessage: Translator.translate("SOMETHING_WRONG", this.context.language) });
+            this.setState({ errorMessage: I18n.t('cmtcht_common_unknown') });
         });
     }
 
@@ -142,9 +143,9 @@ class CometChatCreatePoll extends React.Component {
         const optionList = [...this.state.options];
         const pollOptionView = optionList.map((option, index) => {
             return (
-                <CometChatCreatePollOptions 
-                key={index} 
-                option={option} 
+                <CometChatCreatePollOptions
+                key={index}
+                option={option}
                 tabIndex={index+4}
                 lang={this.context.language}
                 optionChangeHandler={this.optionChangeHandler}
@@ -157,32 +158,32 @@ class CometChatCreatePoll extends React.Component {
             <React.Fragment>
                 <CometChatBackdrop show={true} clicked={this.props.close} />
                 <div css={modalWrapperStyle(this.context)} className="modal__createpoll">
-                    <span css={modalCloseStyle(clearIcon, this.context)} className="modal__close" onClick={this.props.close} title={Translator.translate("CLOSE", this.context.language)}></span>
+                    <span css={modalCloseStyle(clearIcon, this.context)} className="modal__close" onClick={this.props.close} title={I18n.t('cmtcht_common_close')}></span>
                     <div css={modalBodyStyle()} className="modal__body">
                         <table css={modalTableStyle(this.context)}>
-                            <caption css={tableCaptionStyle()} className="modal__title">{Translator.translate("CREATE_POLL", this.context.language)}</caption>
+                            <caption css={tableCaptionStyle()} className="modal__title">{I18n.t('cmtcht_chats_poll')}</caption>
                             <tbody css={tableBodyStyle()}>
                                 <tr className="error">
                                     <td colSpan="3"><div css={modalErrorStyle(this.context)}>{this.state.errorMessage}</div></td>
                                 </tr>
                                 <tr className="poll__question">
-                                    <td><label>{Translator.translate("QUESTION", this.context.language)}</label></td>
+                                    <td><label>{I18n.t('cmtcht_chats_poll_question')}</label></td>
                                     <td colSpan="2">
-                                        <input type="text" autoFocus tabIndex="1" placeholder={Translator.translate("ENTER_YOUR_QUESTION", this.context.language)} ref={this.questionRef} />
+                                        <input type="text" autoFocus tabIndex="1" placeholder={I18n.t('cmtcht_chats_poll_enter_question')} ref={this.questionRef} />
                                     </td>
                                 </tr>
                                 <tr className="poll__options">
                                     <td>
-                                        <label>{Translator.translate("OPTIONS", this.context.language)}</label>
+                                        <label>{I18n.t('cmtcht_common_options')}</label>
                                     </td>
                                     <td colSpan="2">
-                                        <input type="text" tabIndex="2" placeholder={Translator.translate("ENTER_YOUR_OPTION", this.context.language)} ref={this.optionOneRef} />
+                                        <input type="text" tabIndex="2" placeholder={I18n.t('cmtcht_chats_poll_enter_option')} ref={this.optionOneRef} />
                                     </td>
                                 </tr>
                                 <tr ref={this.optionRef} className="poll__options">
                                     <td>&nbsp;</td>
                                     <td colSpan="2">
-                                        <input type="text" tabIndex="3" placeholder={Translator.translate("ENTER_YOUR_OPTION", this.context.language)} ref={this.optionTwoRef} />
+                                        <input type="text" tabIndex="3" placeholder={I18n.t('cmtcht_chats_poll_enter_option')} ref={this.optionTwoRef} />
                                     </td>
                                 </tr>
                                 {pollOptionView}

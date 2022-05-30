@@ -11,9 +11,9 @@ import * as enums from "../../../../util/enums.js";
 import { theme } from "../../../../resources/theme";
 import Translator from "../../../../resources/localization/translator";
 
-import { 
-    stickerWrapperStyle, 
-    stickerSectionListStyle, 
+import {
+    stickerWrapperStyle,
+    stickerSectionListStyle,
     stickerListStyle,
     sectionListItemStyle,
     stickerItemStyle,
@@ -23,6 +23,7 @@ import {
 } from "./style";
 
 import closeIcon from "./resources/close.svg";
+import I18n from 'i18n-js';
 
 class CometChatStickerKeyboard extends React.PureComponent {
 
@@ -32,7 +33,7 @@ class CometChatStickerKeyboard extends React.PureComponent {
 
         super(props, context);
 
-        this.decoratorMessage = Translator.translate("LOADING", context.language);
+        this.decoratorMessage = I18n.t('cmtcht_common_loading');
 
         this.state = {
             stickerlist: [],
@@ -51,7 +52,7 @@ class CometChatStickerKeyboard extends React.PureComponent {
         CometChat.callExtension('stickers', 'GET', 'v1/fetch', null).then(stickers => {
 
             // Stickers received
-            let activeStickerSet = null; 
+            let activeStickerSet = null;
             const customStickers = (stickers.hasOwnProperty("customStickers")) ? stickers["customStickers"] : [];
             const defaultStickers = (stickers.hasOwnProperty("defaultStickers")) ? stickers["defaultStickers"] : [];
 
@@ -64,9 +65,9 @@ class CometChatStickerKeyboard extends React.PureComponent {
             });
 
             const stickerList = [...defaultStickers, ...customStickers];
-            
+
             if (stickerList.length === 0) {
-                this.decoratorMessage = Translator.translate("NO_STICKERS_FOUND", this.context.language);
+                this.decoratorMessage = I18n.t('cmtcht_chats_nostickers');
             }
 
             const stickerSet = stickerList.reduce((r, sticker, index) => {
@@ -92,17 +93,17 @@ class CometChatStickerKeyboard extends React.PureComponent {
 
                 activeStickerList = stickerSet[activeStickerSet];
             }
-            
-            this.setState({ 
-                "stickerlist": stickerList, 
-                "stickerset": stickerSet, 
-                "activestickerlist": activeStickerList, 
-                "activestickerset": activeStickerSet 
+
+            this.setState({
+                "stickerlist": stickerList,
+                "stickerset": stickerSet,
+                "activestickerlist": activeStickerList,
+                "activestickerset": activeStickerSet
             });
 
         }).catch(error => {
-            
-            this.decoratorMessage = Translator.translate("SOMETHING_WRONG", this.context.language);
+
+            this.decoratorMessage = I18n.t('cmtcht_common_unknown');
             this.setState({ "activestickerlist": [], "stickerset": {} });
         });
     }

@@ -33,6 +33,7 @@ import {
 
 import audioCallIcon from "./resources/incoming-call.svg";
 import videoCallIcon from "./resources/incoming-video-call.svg";
+import I18n from 'i18n-js';
 
 class CometChatIncomingCall extends React.PureComponent {
 	static contextType = CometChatContext;
@@ -271,15 +272,15 @@ class CometChatIncomingCall extends React.PureComponent {
 		if (this.state.incomingCall) {
 			let callType = (
 				<React.Fragment>
-					<i css={callIconStyle(audioCallIcon, this.context)} title={Translator.translate("INCOMING_AUDIO_CALL", this.props.lang)}></i>
-					<span>{Translator.translate("INCOMING_AUDIO_CALL", this.props.lang)}</span>
+					<i css={callIconStyle(audioCallIcon, this.context)} title={I18n.t('cmtcht_call_incoming_audio')}></i>
+					<span>{I18n.t('cmtcht_call_incoming_audio')}</span>
 				</React.Fragment>
 			);
 			if (this.state.incomingCall.type === CometChat.CALL_TYPE.VIDEO) {
 				callType = (
 					<React.Fragment>
-						<i css={callIconStyle(videoCallIcon, this.context)} title={Translator.translate("INCOMING_VIDEO_CALL", this.props.lang)}></i>
-						<span>{Translator.translate("INCOMING_VIDEO_CALL", this.props.lang)}</span>
+						<i css={callIconStyle(videoCallIcon, this.context)} title={I18n.t('cmtcht_call_incoming_video')}></i>
+						<span>{I18n.t('cmtcht_call_incoming_video')}</span>
 					</React.Fragment>
 				);
 			}
@@ -302,10 +303,10 @@ class CometChatIncomingCall extends React.PureComponent {
 						</div>
 						<div css={headerButtonStyle()} className="callalert__buttons" ref={this.callButtonRef}>
 							<button type="button" css={ButtonStyle(this.props, 0)} className="button button__decline" onClick={() => this.rejectCall(this.state.incomingCall, CometChat.CALL_STATUS.REJECTED)}>
-								{Translator.translate("DECLINE", this.props.lang)}
+								{I18n.t('cmtcht_call_decline')}
 							</button>
 							<button type="button" css={ButtonStyle(this.props, 1)} className="button button__accept" onClick={this.acceptCall}>
-								{Translator.translate("ACCEPT", this.props.lang)}
+								{I18n.t('cmtcht_call_accept')}
 							</button>
 						</div>
 					</div>

@@ -21,6 +21,7 @@ import {
     previewLinkStyle,
     previewTextStyle,
 } from "./style";
+import I18n from 'i18n-js';
 
 class CometChatLinkPreview extends React.PureComponent {
 
@@ -32,7 +33,7 @@ class CometChatLinkPreview extends React.PureComponent {
         const linkObject = linkPreviewData["links"][0];
 
         const pattern = /(http:|https:)?\/\/(www\.)?(youtube.com|youtu.be)(\S+)?/;
-        const linkText = (linkObject["url"].match(pattern)) ? Translator.translate("VIEW_ON_YOUTUBE", this.context.language) : Translator.translate("VISIT", this.context.language);
+        const linkText = (linkObject["url"].match(pattern)) ? I18n.t('cmtcht_chats_viewyoutube') : I18n.t('cmtcht_chats_visit');
 
         return (
             <div css={messagePreviewContainerStyle(this.context)} className="message__preview">
