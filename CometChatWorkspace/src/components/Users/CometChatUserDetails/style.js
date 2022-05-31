@@ -50,6 +50,7 @@ export const headerTitleStyle = () => {
 		margin: "0",
 		fontWeight: "700",
 		fontSize: "20px",
+    color: "rgb(0, 0, 0)",
 	};
 };
 

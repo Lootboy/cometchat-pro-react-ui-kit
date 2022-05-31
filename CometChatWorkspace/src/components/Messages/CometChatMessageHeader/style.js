@@ -83,7 +83,7 @@ export const chatNameStyle = (context) => {
         overflow: "hidden",
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
-        color: `${context.theme.primary}`,
+        color: `${context.theme.primaryColor}`,
     }
 }
 
