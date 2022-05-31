@@ -152,7 +152,7 @@ CometChatAvatar.defaultProps = {
 	borderWidth: "1px",
 	borderStyle: "solid",
 	borderColor: theme.borderColor.primary,
-	cornerRadius: "50%",
+	cornerRadius: "25%",
 	theme: theme,
 	image: "",
 	user: {},
