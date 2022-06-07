@@ -1,5 +1,6 @@
 import {CometChat} from "@cometchat-pro/chat";
 import Translator from "../../../resources/localization/translator";
+import I18n from "i18n-js";
 
 export const userDetailStyle = context => {
 	return {
@@ -29,7 +30,7 @@ export const headerStyle = context => {
 };
 
 export const headerCloseStyle = (img, context) => {
-	
+
 	const mq = [...context.theme.breakPoints];
 
 	return {
@@ -180,9 +181,9 @@ export const userStatusStyle = () => {
 };
 
 export const userPresenceStyle = (context, state) => {
-	
-	let status = state.status ? state.status.toLowerCase() : "";
-	let compareTo = Translator.translate((CometChat.USER_STATUS.ONLINE).toUpperCase(), context.language).toLowerCase();
+
+	let status = state.status?.toLowerCase ? state.status.toLowerCase() : "";
+  let compareTo = I18n.t('cmtcht_chats_status_online');
 	status = status === compareTo ? { color: `${context.theme.color.blue}` } : { color: `${context.theme.color.helpText}` };
 
 	return {

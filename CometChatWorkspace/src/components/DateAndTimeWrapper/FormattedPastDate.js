@@ -1,4 +1,4 @@
-import { string } from 'prop-types';
+import { number, oneOfType, string } from "prop-types";
 
 import { getTimeOrDateInPast } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/util/common';
 import { useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ export function FormattedPastDate({ timestamp }) {
 }
 
 FormattedPastDate.propTypes = {
-  timestamp: string,
+  timestamp: oneOfType([string,number])
 };
 
 
