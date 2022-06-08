@@ -33,13 +33,13 @@ export class UIKitSettings {
 
 		this.userListMode = UIKitSettings.userListFilterOptions["ALL"];
 		this.groupInMode = UIKitSettings.groupListFilterOptions["PUBLIC_AND_PASSWORD"];
-		this.chatListMode = UIKitSettings.chatListFilterOptions["USERS_AND_GROUPS"];
+		this.chatListMode = UIKitSettings.chatListFilterOptions.USERS;
 
 		this.chats = true;
 		this.calls = false;
 		this.users = true;
-		this.groups = true;
-		this.userSettings = true;
+		this.groups = false;
+		this.userSettings = false;
 		this.tabs = Object.values(tabList);
 
 		this.searchUsers = true;
@@ -47,11 +47,11 @@ export class UIKitSettings {
 		this.searchMessages = true;
 		this.searchChats = true;
 
-		this.unreadCount = true;
+		this.unreadCount = false;
 
-		this.publicGroup = true;
+		this.publicGroup = false;
 		this.privateGroup = true;
-		this.passwordGroup = true;
+		this.passwordGroup = false;
 
 		this.blockUser = true;
 		this.viewShareMedia = true;
@@ -65,22 +65,22 @@ export class UIKitSettings {
 		this.allowPromoteDemoteMembers = true;
 		this.allowAddMembers = true;
 
-		this.callNotifications = true;
+		this.callNotifications = false;
 		this.joinLeaveNotifications = true;
 
 		this.enableSoundForMessages = true;
 		this.enableSoundForCalls = true;
 
-		this.userVideoCall = true;
-		this.groupVideoCall = true;
-		this.userAudioCall = true;
-		this.groupAudioCall = true;
+		this.userVideoCall = false;
+		this.groupVideoCall = false;
+		this.userAudioCall = false;
+		this.groupAudioCall = false;
 
 		this.sendTypingIndicator = true;
 		this.showUserPresence = true;
 		this.showReadDeliveryReceipts = true;
 
-		this.threadedChats = true;
+		this.threadedChats = false;
 		this.hideDeletedMessages = false;
 
 		this.sendMessageInOneOnOne = true;
@@ -96,7 +96,7 @@ export class UIKitSettings {
 		this.sendFiles = true;
 		this.sendPhotoVideos = true;
 		this.sendVoiceNotes = true;
-		this.sendLiveReaction = true;
+		this.sendLiveReaction = false;
 
 		this.sendMessageReaction = true;
 		this.collaborativeWhiteboard = true;
