@@ -6,19 +6,19 @@ import PropTypes from "prop-types";
 import {CometChat} from "@cometchat-pro/chat";
 
 import {
-	CometChatMessageHeader, 
-	CometChatMessageList, 
-	CometChatMessageComposer, 
-	CometChatLiveReactions, 
-	CometChatMessageThread, 
+	CometChatMessageHeader,
+	CometChatMessageList,
+	CometChatMessageComposer,
+	CometChatLiveReactions,
+	CometChatMessageThread,
 	CometChatImageViewer,
 	CometChatBlockedUser
 } from "../";
 
 import {
-	CometChatIncomingCall, 
-	CometChatOutgoingCall, 
-	CometChatOutgoingDirectCall, 
+	CometChatIncomingCall,
+	CometChatOutgoingCall,
+	CometChatOutgoingDirectCall,
 	CometChatIncomingDirectCall
 } from "../../Calls";
 
@@ -36,16 +36,19 @@ import {theme} from "../../../resources/theme";
 import Translator from "../../../resources/localization/translator";
 
 import {
-	chatWrapperStyle, 
-	chatSecondaryStyle, 
-	reactionsWrapperStyle, 
-	messagePaneTopStyle, 
-	messagePaneBannerStyle, 
-	messagePaneUnreadBannerStyle, 
-	messagePaneUnreadBannerMessageStyle, 
-	iconArrowDownStyle, 
+	chatWrapperStyle,
+	chatSecondaryStyle,
+	reactionsWrapperStyle,
+	messagePaneTopStyle,
+	messagePaneBannerStyle,
+	messagePaneUnreadBannerStyle,
+	messagePaneUnreadBannerMessageStyle,
+	iconArrowDownStyle,
 	chatContainerStyle
 } from "./style";
+import { setCurrentConversationId } from "~/middlewares/comet-chat";
+import MessagesCountSynchronizer
+  from "~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/Messages/CometChatMessages/MessagesCountSynchronizer";
 
 class CometChatMessages extends React.PureComponent {
 	static contextType = CometChatContext;
@@ -90,10 +93,11 @@ class CometChatMessages extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		
+
 
 		this.type = this.getContext().type;
 		this.item = this.getContext().item;
+    setCurrentConversationId(this.item?.conversationId)
 
 		this.enableGroupActionMessages();
 		this.enableCallActionMessages();
@@ -102,8 +106,12 @@ class CometChatMessages extends React.PureComponent {
 		this.enableHideDeletedMessages();
 	}
 
+  componentWillUnmount() {
+    setCurrentConversationId(null);
+  }
+
 	componentDidUpdate(prevProps, prevState) {
-		
+
 		if (Object.keys(this.item).length) {
 			const ifChatWindowChanged = () => {
 				let output = false;
@@ -126,6 +134,7 @@ class CometChatMessages extends React.PureComponent {
 
 		this.type = this.getContext().type;
 		this.item = this.getContext().type === CometChat.ACTION_TYPE.TYPE_USER || CometChat.ACTION_TYPE.TYPE_GROUP ? this.getContext().item : {};
+    setCurrentConversationId(this.item?.conversationId)
 
 		this.enableGroupActionMessages();
 		this.enableCallActionMessages();
@@ -261,7 +270,7 @@ class CometChatMessages extends React.PureComponent {
 
 	actionHandler = (action, messages, key, group, options) => {
 
-		switch (action) 
+		switch (action)
 		{
 			case enums.ACTIONS["CUSTOM_MESSAGE_RECEIVED"]:
 			case enums.ACTIONS["MESSAGE_RECEIVED"]:
@@ -1128,6 +1137,7 @@ class CometChatMessages extends React.PureComponent {
 			messageWrapper = (
 				<CometChatContextProvider ref={el => (this.contextProviderRef = el)} user={this.props.chatWithUser} group={this.props.chatWithGroup} language={this.props.lang}>
 					<div css={chatContainerStyle()}>{messageComponent}</div>
+          <MessagesCountSynchronizer/>
 				</CometChatContextProvider>
 			);
 		}
