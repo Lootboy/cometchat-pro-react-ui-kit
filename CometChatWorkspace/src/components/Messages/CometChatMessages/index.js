@@ -49,6 +49,8 @@ import {
 import { setCurrentConversationId } from "~/middlewares/comet-chat";
 import MessagesCountSynchronizer
   from "~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/Messages/CometChatMessages/MessagesCountSynchronizer";
+import { updateUnreadMessagesCount } from '@lootboy/lib/slices/cometChat';
+import { connect } from 'react-redux';
 
 class CometChatMessages extends React.PureComponent {
 	static contextType = CometChatContext;
@@ -290,6 +292,7 @@ class CometChatMessages extends React.PureComponent {
 				if (this.props?.actionGenerated) {
 					this.props?.actionGenerated(action, messages);
 				}
+        this.props.updateUnreadMessagesCount(-1);
 
 				break;
 			}
@@ -1165,4 +1168,8 @@ CometChatMessages.propTypes = {
 	chatWithGroup: PropTypes.string,
 };
 
-export {CometChatMessages};
+const mapDispatchToProps = {
+  updateUnreadMessagesCount,
+}
+const CometChatMessagesConnected = connect(null, mapDispatchToProps)(CometChatMessages)
+export {CometChatMessagesConnected as CometChatMessages};
