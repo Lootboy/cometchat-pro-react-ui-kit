@@ -427,7 +427,9 @@ class CometChatConversationListItem extends React.PureComponent {
 		}
 
 		return (
-			<div css={listItem(this.props)} className="list__item" onMouseEnter={() => this.handleMouseHover(true)} onMouseLeave={() => this.handleMouseHover(false)} onClick={() => this.props.handleClick(this.props.conversation)}>
+			<div css={listItem(this.props)} className="list__item" onMouseEnter={() => this.handleMouseHover(true)} onMouseLeave={() => this.handleMouseHover(false)} onClick={() => this.props.handleClick(this.props.conversation)}
+      style={this.props.conversation.unreadMessageCount ? {  backgroundColor: "rgb(217 240 255 / 57%)" } : undefined}
+      >
 				<div css={itemThumbnailStyle()} className="list__item__thumbnail">
 					{avatar}
 					{presence}
