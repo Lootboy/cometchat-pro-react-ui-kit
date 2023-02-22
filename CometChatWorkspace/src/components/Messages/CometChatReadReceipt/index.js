@@ -17,7 +17,8 @@ import greyDoubleTick from "./resources/message-delivered.svg";
 import greyTick from "./resources/message-sent.svg";
 import sendingTick from "./resources/wait.svg";
 import errorTick from "./resources/warning-small.svg";
-import { FormattedTime } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
+import FormattedDate from "../../FormattedDate";
+
 
 class CometChatReadReceipt extends React.PureComponent {
 	static contextType = CometChatContext;
@@ -66,12 +67,12 @@ class CometChatReadReceipt extends React.PureComponent {
 	};
 
 	render() {
-		
+
 		let ticks,
 			receiptText = null,
 			dateField = null,
 			color = null;
-		
+
 		if (this.props.message?.sender?.uid === this.loggedInUser?.uid) {
 
 			if (this.props.message.receiverType === CometChat.RECEIVER_TYPE.GROUP) {
@@ -138,7 +139,7 @@ class CometChatReadReceipt extends React.PureComponent {
 		return (
 			<React.Fragment>
 				<span css={msgTimestampStyle(this.context, this.props, this.loggedInUser)} className="message__timestamp">
-					<FormattedTime timestamp={dateField} />
+					<FormattedDate timestamp={dateField} time />
 				</span>
 				{receipt}
 			</React.Fragment>

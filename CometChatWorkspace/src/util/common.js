@@ -1,8 +1,8 @@
 /* eslint-disable no-useless-concat */
 /* eslint-disable no-extend-native */
 import I18n from 'i18n-js';
-import moment from 'moment';
-import { getDateFormat, getTimeFormat } from '@lootboy/lib/utils/dateAndTime'
+import { getDateFormatUnicode, getTimeFormatUnicode } from '@lootboy/lib/utils/dateAndTime';
+import { format } from 'date-fns';
 
 const milliseconds = 1000;
 const seconds = 1 * milliseconds;
@@ -117,40 +117,26 @@ const dateDiffInDays = (a, b) => {
 }
 
 
-export const getTimeOrDateInPast = (timestamp, lang) => {
+export const getTimeOrDateInPast = (timestamp, lang, time = false) => {
 
     const timeStampInMilliSeconds = timestamp * 1000;
 
     const messageTimestamp = new Date(timeStampInMilliSeconds);
-    const currentTimestamp = new Date(Date.now());
 
-    const dateToDisplay = moment(messageTimestamp).local();
+  const dateDifferenceInDays = dateDiffInDays(
+    messageTimestamp,
+    new Date(),
+  );
 
-    const dateDifferenceInDays = dateDiffInDays(messageTimestamp, currentTimestamp);
-
-    if (dateDifferenceInDays < 1) {
-        timestamp = dateToDisplay.format(getTimeFormat(lang));
+    if (dateDifferenceInDays < 1 || time) {
+        timestamp = format(messageTimestamp,getTimeFormatUnicode(lang))
     } else if (dateDifferenceInDays < 2) {
         timestamp = I18n.t('cmtcht_common_yesterday');
     } else  {
-        timestamp = dateToDisplay.format(getDateFormat(lang));
+        timestamp = format(messageTimestamp,getDateFormatUnicode(lang))
     }
 
     return timestamp;
-}
-
-export const getFormattedTime = (timestamp, lang) => {
-    const timeStampInMilliSeconds = timestamp * 1000;
-    const messageTimestamp = moment(new Date(timeStampInMilliSeconds)).local();
-
-    return messageTimestamp.format(getTimeFormat(lang));
-}
-
-export const getFormattedDate = (timestamp, lang) => {
-    const timeStampInMilliSeconds = timestamp * 1000;
-    const messageTimestamp = moment(new Date(timeStampInMilliSeconds)).local();
-
-    return messageTimestamp.format(getDateFormat(lang));
 }
 
 export const countEmojiOccurences = (string, word) =>  {

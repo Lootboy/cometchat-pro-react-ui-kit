@@ -8,7 +8,7 @@ import { CometChat } from "@cometchat-pro/chat";
 
 import { MessageListManager } from "./controller";
 
-import { 
+import {
   CometChatSenderTextMessageBubble, CometChatReceiverTextMessageBubble,
   CometChatSenderImageMessageBubble, CometChatReceiverImageMessageBubble,
   CometChatSenderFileMessageBubble, CometChatReceiverFileMessageBubble,
@@ -31,7 +31,7 @@ import * as enums from "../../../util/enums.js";
 import { theme } from "../../../resources/theme";
 import Translator from "../../../resources/localization/translator";
 
-import { 
+import {
 	chatListStyle,
 	listWrapperStyle,
 	messageDateContainerStyle,
@@ -39,7 +39,8 @@ import {
 	decoratorMessageStyle,
 	decoratorMessageTxtStyle
 } from "./style";
-import { FormattedPastDate } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
+import { format } from 'date-fns';
+import FormattedDate from "../../FormattedDate";
 
 class CometChatMessageList extends React.PureComponent {
 	loggedInUser = null;
@@ -57,7 +58,7 @@ class CometChatMessageList extends React.PureComponent {
 			decoratorMessage: "LOADING",
 		};
 
-		this.messagesEnd = React.createRef();	
+		this.messagesEnd = React.createRef();
 	}
 
 	componentDidMount() {
@@ -69,7 +70,7 @@ class CometChatMessageList extends React.PureComponent {
 				});
 			})
 			.catch(error => this.props.actionGenerated(enums.ACTIONS["ERROR"], [], "SOMETHING_WRONG"));
-		
+
 		if (Object.keys(this.context.item).length === 0 && this.context.type.trim().length === 0) {
 			return false;
 		}
@@ -82,7 +83,7 @@ class CometChatMessageList extends React.PureComponent {
 			this.MessageListManager = new MessageListManager(this.context, this.context.item, this.context.type);
 		}
 
-		
+
 		this.MessageListManager.initializeMessageRequest().then(() => {
 			this.messageHandler(this.context.item, enums.ACTIONS["MESSAGES_INITIAL_FETCH"]);
 			this.MessageListManager.attachListeners(this.messageUpdated);
@@ -210,7 +211,7 @@ class CometChatMessageList extends React.PureComponent {
 	//callback for listener functions
 	messageUpdated = (key, message, group, options) => {
 
-		switch (key) 
+		switch (key)
 		{
 			case enums.MESSAGE_DELETED:
 				this.onMessageDeleted(message);
@@ -601,7 +602,7 @@ class CometChatMessageList extends React.PureComponent {
 
 		let component;
 		const messageKey = message._id ? message._id : message.id;
-		
+
 		if (message.hasOwnProperty("deletedAt")) {
 			component = <CometChatDeleteMessageBubble key={messageKey} message={message} />;
 		} else {
@@ -683,14 +684,13 @@ class CometChatMessageList extends React.PureComponent {
 
 			const dateField = message._composedAt || message.sentAt;
 
-			const messageDate = message.sentAt * 1000;
-			const messageSentDate = dateFormat(messageDate, "dd/mm/yyyy");
+			const messageSentDate = format(new Date(dateField), "dd/MM/yyyy");
 
 			if (cDate !== messageSentDate) {
 				dateSeparator = (
 					<div css={messageDateContainerStyle()} className="message__date">
 						<span css={messageDateStyle(this.context)}>
-              <FormattedPastDate timestamp={dateField} />
+              <FormattedDate timestamp={dateField} />
 						</span>
 					</div>
 				);

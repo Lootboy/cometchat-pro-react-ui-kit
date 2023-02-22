@@ -24,8 +24,9 @@ import {
     nameWrapperStyle,
     nameStyle
 } from "./style";
-import { FormattedTime } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
+
 import I18n from 'i18n-js';
+import FormattedDate from "../../FormattedDate";
 
 const CometChatDeleteMessageBubble = (props) => {
 
@@ -52,8 +53,7 @@ const CometChatDeleteMessageBubble = (props) => {
 					</div>
 					<div css={messageInfoWrapperStyle(props, loggedInUser)} className="message__info__wrapper">
 						<span css={messageTimeStampStyle(context)} className="message__timestamp">
-							{messageDate}
-              <FormattedTime timestamp={messageDate} />
+              <FormattedDate timestamp={messageDate} time/>
 						</span>
 					</div>
 				</React.Fragment>

@@ -33,7 +33,7 @@ import audioCallIcon from "./resources/audio-call.svg";
 import videoCallIcon from "./resources/video-call.svg";
 import detailPaneIcon from "./resources/info.svg";
 
-import { FormattedPastDate } from '~/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/DateAndTimeWrapper';
+import FormattedDate from "../../FormattedDate";
 
 class CometChatMessageHeader extends React.Component {
 	item;
@@ -131,7 +131,7 @@ class CometChatMessageHeader extends React.Component {
 
 		if (this.context.item.status === CometChat.USER_STATUS.OFFLINE && this.context.item.lastActiveAt) {
 
-			// status is set here as number to be later converted to correct date format with FormattedPastDate
+			// status is set here as number to be later converted to correct date format with FormattedDate
       status = this.context.item.lastActiveAt;
 		} else if (this.context.item.status === CometChat.USER_STATUS.OFFLINE) {
 			status = I18n.t('cmtcht_chats_status_offline');
@@ -574,7 +574,7 @@ class CometChatMessageHeader extends React.Component {
 		let status = (
 			<span css={chatStatusStyle(this.state, this.context)} className={chatStatusClassName}>
         { typeof this.state.status === 'number'
-          ? <FormattedPastDate timestamp={this.state.status} />
+          ? <FormattedDate timestamp={this.state.status} />
           : this.state.status}
 			</span>
 		);

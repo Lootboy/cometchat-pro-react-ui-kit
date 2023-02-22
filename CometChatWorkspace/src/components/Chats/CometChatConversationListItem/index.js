@@ -15,7 +15,7 @@ import { CometChatContext } from "../../../util/CometChatContext"
 import { theme } from "../../../resources/theme";
 import Translator from "../../../resources/localization/translator";
 
-import { FormattedPastDate } from "../../DateAndTimeWrapper"
+import FormattedDate from "../../FormattedDate";
 
 import {
   listItem,
@@ -398,7 +398,7 @@ class CometChatConversationListItem extends React.PureComponent {
 		if (this.state.lastMessage) {
 			lastMessageTimeStamp = (
 				<span css={itemLastMsgTimeStyle(this.props)} className="item__details__timestamp">
-          <FormattedPastDate timestamp={this.state.lastMessageTimestamp}/>
+          <FormattedDate timestamp={this.state.lastMessageTimestamp}/>
 				</span>
 			);
 		}
